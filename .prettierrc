@@ -1,0 +1,11 @@
+{
+  "arrowParens": "avoid",
+  "bracketSpacing": true,
+  "packageManager": "yarn",
+  "singleQuote": true,
+  "semi": false,
+  "tabWidth": 2,
+  "spaceBeforeFunctionParen": false,
+  "trailingComma": "all",
+  "useTabs": false
+}
