@@ -9,7 +9,7 @@ export default function Home() {
   const [newBody, setNewBody] = useState<string | undefined>()
   const [userPosts, setUserPosts] = useState<UserPost[] | undefined>()
 
-  const { user } = useAuth()
+  const { user, dbUser } = useAuth()
 
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -37,7 +37,7 @@ export default function Home() {
   const mappedPosts =
     userPosts &&
     Object.keys(userPosts).map(item => (
-      <Card key={item} post={userPosts[item]} />
+      <Card key={item} post={userPosts[item]} dbUser={dbUser} />
     ))
 
   const loadUserPosts = (uuid: string) => {
@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <div className="h-screen bg-gray-300 gap-5 flex justify-center items-center flex-col">
-      {mappedPosts}
+      <div className="flex flex-col gap-2 text-tertiary">{mappedPosts}</div>
       <div>
         <h2>Your latitude is: {location?.latitude}</h2>
         <h2>Your longitude is: {location?.longitude}</h2>
@@ -62,14 +62,14 @@ export default function Home() {
         id="message"
         rows={4}
         // eslint-disable-next-line max-len
-        className="block p-2.5 text-sm w-1/2 bg-secondary text-gray-300 rounded-lg border border-gray-300"
+        className="block p-2.5 text-sm w-1/2 bg-tertiary text-gray-300 rounded-lg border border-gray-300"
         placeholder="Write your thoughts here..."
         onChange={e => setNewBody(e.target.value)}
       />
       <button
         type="submit"
         // eslint-disable-next-line max-len
-        className="text-white bg-gray-300 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
+        className="text-tertiary bg-gray-300 hover:bg-gray-200 disabled:bg-secondary focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
         disabled={!newBody ? true : false}
         onClick={e => {
           e.preventDefault()

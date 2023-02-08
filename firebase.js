@@ -27,22 +27,24 @@ export const app = initializeApp(firebaseConfig)
 const db = getDatabase()
 
 // Creates User in Realtime DB
-export function createUser(uuid, name, email) {
+export function createUser(uuid, name, email, image) {
   set(ref(db, 'users/' + uuid), {
-    name: name,
-    email: email,
+    name,
+    email,
+    image,
   })
     .then(() => alert('User created successfully'))
     .catch(err => alert(err.message))
 }
 
 // Checks User Exists in Realtime DB. If Not, Creates User
-export function checkUserCreated(uuid, name, email) {
+export function checkUserCreated(uuid, name, email, image, callbackFunc) {
   onValue(ref(db, 'users/' + uuid), snapshot => {
     const user = snapshot.val()
     if (!user) {
-      createUser(uuid, name, email)
+      createUser(uuid, name, email, image)
     }
+    callbackFunc(user)
   })
 }
 
@@ -58,6 +60,7 @@ export function createPost(body, location, timestamp, uid) {
     .catch(err => alert(err.message))
 }
 
+// Gets Logged In User's Posts
 export function getUserPosts(uuid, callbackFunc) {
   const que = query(ref(db, 'posts/'), orderByChild('user'), equalTo(uuid))
   get(que).then(snapshot => {

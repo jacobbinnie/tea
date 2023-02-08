@@ -1,34 +1,36 @@
 /* eslint-disable max-len */
 /* eslint-disable @next/next/no-img-element */
+import Image from 'next/image'
 import React from 'react'
-import { UserPost } from '../../interfaces'
+import { DbUser, UserPost } from '../../interfaces'
 
 interface CardProps {
   post: UserPost
+  dbUser: DbUser | null
 }
 
-export const Card: React.FC<CardProps> = ({ post }) => {
+export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
   return (
-    <div className="flex bg-white shadow-lg rounded-lg max-w-md ">
-      <div className="flex items-start px-4 py-6">
-        {/* <img
-          className="w-12 h-12 rounded-full object-cover mr-4 shadow"
-          src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-          alt="avatar"
-        /> */}
+    <div className="flex bg-tertiary shadow-lg rounded-lg  ">
+      <div className="flex items-start px-4 py-6 justify-between">
+        {dbUser && (
+          <Image
+            className="w-5 h-5 rounded-full object-cover mr-4 shadow "
+            src={dbUser.image}
+            alt="avatar"
+            width={10}
+            height={10}
+          />
+        )}
         <div className="">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900 -mt-1">
+          <div className="flex items-center">
+            <h2 className="text-md font-semibold text-secondary -mt-1">
               {post.body}
             </h2>
-            <small className="text-sm text-gray-700">22h ago</small>
           </div>
-          <p className="mt-3 text-gray-700 text-sm">
-            Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit
-            amet!
-          </p>
-          <div className="mt-4 flex items-center">
-            <div className="flex mr-2 text-gray-700 text-sm">
+
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex mr-2 text-gray-300 text-sm">
               <svg
                 fill="none"
                 viewBox="0 0 24 24"
@@ -44,7 +46,7 @@ export const Card: React.FC<CardProps> = ({ post }) => {
               </svg>
               <span>12</span>
             </div>
-            <div className="flex mr-2 text-gray-700 text-sm">
+            <div className="flex mr-2 text-gray-300 text-sm">
               <svg
                 fill="none"
                 viewBox="0 0 24 24"
@@ -60,7 +62,7 @@ export const Card: React.FC<CardProps> = ({ post }) => {
               </svg>
               <span>8</span>
             </div>
-            <div className="flex mr-2 text-gray-700 text-sm">
+            <div className="flex mr-2 text-gray-300 text-sm">
               <svg
                 fill="none"
                 viewBox="0 0 24 24"
@@ -76,6 +78,7 @@ export const Card: React.FC<CardProps> = ({ post }) => {
               </svg>
               <span>share</span>
             </div>
+            <small className="text-sm text-gray-300">22h ago</small>
           </div>
         </div>
       </div>

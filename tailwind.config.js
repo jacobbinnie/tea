@@ -11,7 +11,8 @@ module.exports = {
     },
     colors: {
       primary: '#4e67f5', // MAIN COLOR
-      secondary: '#fffefe', // OFF-WHITE
+      secondary: '#0a0a0a', // OFF-BLACK
+      tertiary: '#fffefe', // OFF-WHITE
       gray: {
         100: '#f6f9fa', // BACKGROUND
         200: '#eceff0', // LIKE / DISLIKE BUTTONS

@@ -13,16 +13,18 @@ import {
 } from 'firebase/auth'
 import { getApps } from 'firebase/app'
 import { app, checkUserCreated } from '../firebase'
-import { UserSession } from '../interfaces'
+import { DbUser, UserSession } from '../interfaces'
 import { useRouter } from 'next/router'
 
 interface AuthContextValues {
   user: UserSession | null
+  dbUser: DbUser | null
   signInWithGoogle: () => Promise<void | null>
 }
 
 const AuthContext = createContext<AuthContextValues>({
   user: null,
+  dbUser: null,
   signInWithGoogle: async () => null,
 })
 
@@ -32,6 +34,8 @@ interface AuthProviderOptions {
 
 export const AuthProvider = ({ children }: AuthProviderOptions) => {
   const [user, setUser] = useState<UserSession | null>(null)
+  const [dbUser, setDbUser] = useState<DbUser | null>(null)
+
   const router = useRouter()
 
   useEffect(() => {
@@ -55,7 +59,13 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   }
 
   const addUserToDatabase = async (user: UserCredential) => {
-    checkUserCreated(user.user.uid, user.user.displayName, user.user.email)
+    checkUserCreated(
+      user.user.uid,
+      user.user.displayName,
+      user.user.email,
+      user.user.photoURL,
+      setDbUser,
+    )
   }
 
   const signInWithGoogle = async () => {
@@ -84,6 +94,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
 
   const value = {
     user,
+    dbUser,
     signInWithGoogle,
   }
 
