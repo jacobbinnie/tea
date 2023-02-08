@@ -5,9 +5,14 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  UserCredential,
+} from 'firebase/auth'
 import { getApps } from 'firebase/app'
-import { app } from '../firebase'
+import { app, checkUserCreated } from '../firebase'
 import { UserSession } from '../interfaces'
 import { useRouter } from 'next/router'
 
@@ -49,6 +54,10 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
     router.push('./')
   }
 
+  const addUserToDatabase = async (user: UserCredential) => {
+    checkUserCreated(user.user.uid, user.user.displayName, user.user.email)
+  }
+
   const signInWithGoogle = async () => {
     signInWithPopup(auth, provider)
       .then(result => {
@@ -60,8 +69,10 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
 
           if (token && user) {
             setUser({ token, user })
+            addUserToDatabase(result)
           }
         }
+
         redirectHome()
       })
       .catch(error => {

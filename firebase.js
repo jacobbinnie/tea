@@ -1,6 +1,16 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-import { getDatabase, ref, set } from 'firebase/database'
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  query,
+  get,
+  orderByChild,
+  equalTo,
+} from 'firebase/database'
+import { generateString } from './utils/utils'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -14,16 +24,43 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
+const db = getDatabase()
 
-// Useful Functions
-
-export function writeUserData(userId, name, email, imageUrl) {
-  const db = getDatabase()
-  const reference = ref(db, 'users/' + userId)
-
-  set(reference, {
-    username: name,
+// Creates User in Realtime DB
+export function createUser(uuid, name, email) {
+  set(ref(db, 'users/' + uuid), {
+    name: name,
     email: email,
-    profile_picture: imageUrl,
+  })
+    .then(() => alert('User created successfully'))
+    .catch(err => alert(err.message))
+}
+
+// Checks User Exists in Realtime DB. If Not, Creates User
+export function checkUserCreated(uuid, name, email) {
+  onValue(ref(db, 'users/' + uuid), snapshot => {
+    const user = snapshot.val()
+    if (!user) {
+      createUser(uuid, name, email)
+    }
+  })
+}
+
+// Create Post
+export function createPost(body, location, timestamp, uid) {
+  set(ref(db, 'posts/' + Date.now() + generateString(5)), {
+    body,
+    location,
+    timestamp,
+    user: uid,
+  })
+    .then(() => alert('Post created successfully'))
+    .catch(err => alert(err.message))
+}
+
+export function getUserPosts(uuid, callbackFunc) {
+  const que = query(ref(db, 'posts/'), orderByChild('user'), equalTo(uuid))
+  get(que).then(snapshot => {
+    callbackFunc(snapshot.val())
   })
 }
