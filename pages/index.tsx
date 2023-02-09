@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Card from '../components/card'
+import { UserPostsContainer } from '../components/userPostsContainer'
 import { createPost, getUserPosts } from '../firebase'
 import { Location, UserPost } from '../interfaces'
 import { useAuth } from '../providers/authProvider'
@@ -34,12 +34,6 @@ export default function Home() {
     })
   }
 
-  const mappedPosts =
-    userPosts &&
-    Object.keys(userPosts).map(item => (
-      <Card key={item} post={userPosts[item]} dbUser={dbUser} />
-    ))
-
   const loadUserPosts = (uuid: string) => {
     getUserPosts(uuid, setUserPosts)
   }
@@ -53,7 +47,7 @@ export default function Home() {
 
   return (
     <div className="h-screen bg-gray-300 gap-5 flex justify-center items-center flex-col">
-      <div className="flex flex-col gap-2 text-tertiary">{mappedPosts}</div>
+      <UserPostsContainer userPosts={userPosts} dbUser={dbUser} />
       <div>
         <h2>Your latitude is: {location?.latitude}</h2>
         <h2>Your longitude is: {location?.longitude}</h2>

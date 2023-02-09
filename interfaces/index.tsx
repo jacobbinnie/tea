@@ -17,6 +17,12 @@ export interface UserPost {
   user: string
 }
 
+export interface PublicPost {
+  body: string
+  timestamp: number
+  user: string
+}
+
 export interface DbUser {
   email: string
   image: string

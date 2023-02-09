@@ -13,6 +13,9 @@
       "version": "detect"
     }
   },
+  "globals": {
+    "JSX": true
+  },
   "rules": {
     // Code Quality
     "no-use-before-define": "off",
