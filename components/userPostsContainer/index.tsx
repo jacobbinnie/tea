@@ -12,15 +12,32 @@ export const UserPostsContainer: React.FC<CardContainerProps> = ({
   userPosts,
 }) => {
   const [mappedPosts, setMappedPosts] = useState<JSX.Element[] | undefined>()
-  const [columnCount, setColumnCount] = useState(0)
+  const [layout, setLayout] = useState<JSX.Element | undefined>()
 
   const mapPosts = () => {
     if (userPosts) {
       const dataMapping = Object.keys(userPosts).map(item => (
         <Card key={item} post={userPosts[item]} dbUser={dbUser} />
       ))
-      setColumnCount(Object.keys(userPosts).length)
       setMappedPosts(dataMapping)
+    }
+  }
+
+  const layoutBuilder = () => {
+    if (mappedPosts && userPosts) {
+      const columnCount = Object.keys(userPosts).length
+      return (
+        <div
+          // eslint-disable-next-line max-len
+          className={`w-full margin-auto sm:columns-1 md:columns-${
+            columnCount < 2 ? 1 : 2
+          } lg:columns-${
+            columnCount < 3 ? columnCount : 3
+          } gap-4 space-y-4 p-8`}
+        >
+          {mappedPosts}
+        </div>
+      )
     }
   }
 
@@ -28,20 +45,15 @@ export const UserPostsContainer: React.FC<CardContainerProps> = ({
     mapPosts()
   }, [userPosts])
 
-  if (userPosts && mappedPosts) {
-    console.log(Object.keys(userPosts).length)
-    return (
-      <div
-        // eslint-disable-next-line max-len
-        className={`w-full margin-auto sm:columns-1 md:columns-${
-          columnCount < 2 ? columnCount : 2
-        } lg:columns-${columnCount < 3 ? columnCount : 3} xl:columns-${
-          columnCount < 4 ? columnCount : 4
-        } gap-4 space-y-4 p-8`}
-      >
-        {mappedPosts}
-      </div>
-    )
+  useEffect(() => {
+    if (mappedPosts) {
+      console.log('Mapped Posts')
+      setLayout(layoutBuilder)
+    }
+  }, [mappedPosts])
+
+  if (layout) {
+    return layout
   }
   return <h5>You have no posts</h5>
 }
