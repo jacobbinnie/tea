@@ -15,9 +15,7 @@ export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
   return (
     <div className="bg-tertiary rounded-md shadow-lg items-start px-4 py-6 w-full break-inside-avoid">
       <div className="flex items-center">
-        <h2 className="text-sm font-semibold text-secondary mt-1">
-          {post.body}
-        </h2>
+        <h2 className="text-sm font-semibold text-secondary">{post.body}</h2>
       </div>
 
       <div className="flex flex-row items-center justify-between w-full mt-4">
@@ -31,14 +29,14 @@ export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
           />
         )}
         <div className="flex gap-5 items-center">
-          <div className="bg-primary px-2 py-1 rounded text-xs cursor-pointer hover:opacity-95 shadow-md">
+          <div className="bg-primary px-5 py-1 rounded text-xs cursor-pointer hover:opacity-90 shadow-md transition-all">
             Reply
           </div>
 
-          <div className="flex text-gray-300 text-sm">
+          <div className="flex text-gray-300 text-sm cursor-pointer hover:opacity-90 hover:mb-1 transition-all">
             <ThumbsUp />
           </div>
-          <div className="flex text-gray-300 text-sm">
+          <div className="flex text-gray-300 text-sm cursor-pointer hover:opacity-90 hover:mt-1 transition-all">
             <ThumbsDown />
           </div>
         </div>

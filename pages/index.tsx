@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-200 flex items-center justify-center">
-      <div className="max-w-screen-lg gap-5 flex items-center flex-col">
+      <div className="max-w-screen-xl gap-5 flex items-center flex-col">
         <UserPostsContainer userPosts={userPosts} dbUser={dbUser} />
 
         <div>
