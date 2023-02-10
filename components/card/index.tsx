@@ -13,7 +13,7 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
   return (
-    <div className=" bg-tertiary rounded-md shadow-lg items-start px-4 py-6 w-full break-inside-avoid">
+    <div className="bg-tertiary rounded-md shadow-lg items-start px-4 py-6 w-full break-inside-avoid">
       <div className="flex items-center">
         <h2 className="text-sm font-semibold text-secondary mt-1">
           {post.body}
@@ -23,14 +23,18 @@ export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
       <div className="flex flex-row items-center justify-between w-full mt-4">
         {dbUser && (
           <Image
-            className="w-5 h-5 rounded-full object-cover"
+            className="w-6 h-6 rounded-full object-cover border"
             src={dbUser.image}
             alt="avatar"
-            width={10}
-            height={10}
+            width={20}
+            height={20}
           />
         )}
-        <div className="flex gap-3">
+        <div className="flex gap-5 items-center">
+          <div className="bg-primary px-2 py-1 rounded text-xs cursor-pointer hover:opacity-95 shadow-md">
+            Reply
+          </div>
+
           <div className="flex text-gray-300 text-sm">
             <ThumbsUp />
           </div>

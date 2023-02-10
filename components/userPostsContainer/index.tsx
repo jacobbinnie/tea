@@ -26,14 +26,17 @@ export const UserPostsContainer: React.FC<CardContainerProps> = ({
   const layoutBuilder = () => {
     if (mappedPosts && userPosts) {
       const columnCount = Object.keys(userPosts).length
+
       return (
         <div
           // eslint-disable-next-line max-len
-          className={`w-full margin-auto sm:columns-1 md:columns-${
-            columnCount < 2 ? 1 : 2
-          } lg:columns-${
-            columnCount < 3 ? columnCount : 3
-          } gap-4 space-y-4 p-8`}
+          className={
+            columnCount === 1
+              ? `sm:columns-1 gap-4 space-y-4 p-8`
+              : columnCount < 3
+              ? `sm:columns-1 md:columns-2 gap-4 space-y-4 p-8`
+              : `sm:columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4 p-8`
+          }
         >
           {mappedPosts}
         </div>
@@ -47,7 +50,6 @@ export const UserPostsContainer: React.FC<CardContainerProps> = ({
 
   useEffect(() => {
     if (mappedPosts) {
-      console.log('Mapped Posts')
       setLayout(layoutBuilder)
     }
   }, [mappedPosts])

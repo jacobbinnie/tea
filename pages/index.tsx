@@ -46,32 +46,35 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="h-screen bg-gray-300 gap-5 flex justify-center items-center flex-col">
-      <UserPostsContainer userPosts={userPosts} dbUser={dbUser} />
-      <div>
-        <h2>Your latitude is: {location?.latitude}</h2>
-        <h2>Your longitude is: {location?.longitude}</h2>
+    <div className="min-h-screen bg-gray-200 flex items-center justify-center">
+      <div className="max-w-screen-lg gap-5 flex items-center flex-col">
+        <UserPostsContainer userPosts={userPosts} dbUser={dbUser} />
+
+        <div>
+          <h2>Your latitude is: {location?.latitude}</h2>
+          <h2>Your longitude is: {location?.longitude}</h2>
+        </div>
+        <textarea
+          id="message"
+          rows={4}
+          // eslint-disable-next-line max-len
+          className="block p-2.5 text-sm w-1/2 bg-tertiary text-gray-300 rounded-lg border border-gray-300"
+          placeholder="Write your thoughts here..."
+          onChange={e => setNewBody(e.target.value)}
+        />
+        <button
+          type="submit"
+          // eslint-disable-next-line max-len
+          className="text-tertiary bg-gray-300 hover:bg-gray-200 disabled:bg-secondary focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
+          disabled={!newBody ? true : false}
+          onClick={e => {
+            e.preventDefault()
+            handleCreatePost()
+          }}
+        >
+          Submit
+        </button>
       </div>
-      <textarea
-        id="message"
-        rows={4}
-        // eslint-disable-next-line max-len
-        className="block p-2.5 text-sm w-1/2 bg-tertiary text-gray-300 rounded-lg border border-gray-300"
-        placeholder="Write your thoughts here..."
-        onChange={e => setNewBody(e.target.value)}
-      />
-      <button
-        type="submit"
-        // eslint-disable-next-line max-len
-        className="text-tertiary bg-gray-300 hover:bg-gray-200 disabled:bg-secondary focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
-        disabled={!newBody ? true : false}
-        onClick={e => {
-          e.preventDefault()
-          handleCreatePost()
-        }}
-      >
-        Submit
-      </button>
     </div>
   )
 }
