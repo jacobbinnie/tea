@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import Sidebar from '../components/sidebar'
+import Topbar from '../components/topbar'
 import { UserPostsContainer } from '../components/userPostsContainer'
 import { createPost, getUserPosts } from '../firebase'
 import { Location, UserPost } from '../interfaces'
@@ -46,10 +48,11 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-200 flex items-center justify-center">
-      <div className="max-w-screen-xl gap-5 flex items-center flex-col">
+    <div className="flex overflow-hidden m-h-screen bg-gray-200">
+      <Sidebar />
+      <Topbar />
+      <div className="flex-1 ml-24 mt-24 p-8">
         <UserPostsContainer userPosts={userPosts} dbUser={dbUser} />
-
         <div>
           <h2>Your latitude is: {location?.latitude}</h2>
           <h2>Your longitude is: {location?.longitude}</h2>
