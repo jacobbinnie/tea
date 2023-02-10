@@ -10,6 +10,7 @@ import {
   orderByChild,
   equalTo,
 } from 'firebase/database'
+import { GeoFire } from 'geofire'
 import { generateString } from './utils/utils'
 
 const firebaseConfig = {
@@ -25,6 +26,59 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig)
 const db = getDatabase()
+
+// Create a Firebase reference where GeoFire will store its information
+const firebaseRef = ref(db)
+
+// Create a GeoFire index
+const geoFire = new GeoFire(firebaseRef)
+
+export function getGeofireKey(key) {
+  geoFire
+    .get(key)
+    .then(response => {
+      return response
+    })
+    .catch(err => {
+      throw new Error(err)
+    })
+}
+
+export function setGeofireKey(key, location) {
+  geoFire.set(key, location).then(
+    function () {
+      console.log('Provided key has been added to GeoFire')
+    },
+    function (error) {
+      console.log('Error: ' + error)
+    },
+  )
+}
+
+export function removeGeofireKey(key) {
+  geoFire.remove(key).then(
+    function () {
+      console.log('Provided key has been removed from GeoFire')
+    },
+    function (error) {
+      console.log('Error: ' + error)
+    },
+  )
+}
+
+export function getNearbyPosts(currentLocation, radius) {
+  geoFire
+    .query({
+      center: currentLocation,
+      radius: radius,
+    })
+    .then(result => {
+      return result
+    })
+    .catch(error => {
+      console.log('Error: ' + error)
+    })
+}
 
 // Creates User in Realtime DB
 export function createUser(uuid, name, email, image) {

@@ -25,7 +25,7 @@ export default function Home() {
   const handleCreatePost = () => {
     navigator.geolocation.getCurrentPosition(function (position) {
       createPost(
-        newBody,
+        newBody!,
         {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
