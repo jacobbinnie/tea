@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
     checkUserCreated(
       user.user.uid,
       user.user.displayName,
-      user.user.email,
+      user.user.email!,
       user.user.photoURL,
       setDbUser,
     )

@@ -11,6 +11,8 @@ import {
   equalTo,
 } from 'firebase/database'
 import { GeoFire } from 'geofire'
+import React, { Dispatch, SetStateAction } from 'react'
+import { DbUser, PublicPost, UserPost } from './interfaces'
 import { generateString } from './utils/utils'
 
 const firebaseConfig = {
@@ -28,23 +30,15 @@ export const app = initializeApp(firebaseConfig)
 const db = getDatabase()
 
 // Create a Firebase reference where GeoFire will store its information
-const firebaseRef = ref(db)
+const firebaseRef = ref(db, 'geofireKeys/')
 
 // Create a GeoFire index
 const geoFire = new GeoFire(firebaseRef)
 
-export function getGeofireKey(key) {
-  geoFire
-    .get(key)
-    .then(response => {
-      return response
-    })
-    .catch(err => {
-      throw new Error(err)
-    })
-}
-
-export function setGeofireKey(key, location) {
+export function setGeofireKey(
+  key: string,
+  location: [latitude: number, longitude: number],
+) {
   geoFire.set(key, location).then(
     function () {
       console.log('Provided key has been added to GeoFire')
@@ -55,7 +49,7 @@ export function setGeofireKey(key, location) {
   )
 }
 
-export function removeGeofireKey(key) {
+export function removeGeofireKey(key: string) {
   geoFire.remove(key).then(
     function () {
       console.log('Provided key has been removed from GeoFire')
@@ -66,22 +60,40 @@ export function removeGeofireKey(key) {
   )
 }
 
-export function getNearbyPosts(currentLocation, radius) {
-  geoFire
-    .query({
-      center: currentLocation,
-      radius: radius,
-    })
-    .then(result => {
-      return result
-    })
-    .catch(error => {
-      console.log('Error: ' + error)
-    })
+// Gets Single Post
+export function getPublicPost(
+  postId: string,
+  // eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
+  handleAddToNearbyPosts: (post: PublicPost) => void,
+) {
+  const que = query(ref(db, 'posts/' + postId))
+  get(que).then(snapshot => {
+    handleAddToNearbyPosts(snapshot.val())
+  })
+}
+
+export function getNearbyPostIds(
+  center: [number, number],
+  radius: number,
+  // eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
+  handleAddToNearbyPosts: (post: PublicPost) => void,
+) {
+  const geoQuery = geoFire.query({
+    center,
+    radius,
+  })
+  geoQuery.on('key_entered', (key: string) => {
+    getPublicPost(key, handleAddToNearbyPosts)
+  })
 }
 
 // Creates User in Realtime DB
-export function createUser(uuid, name, email, image) {
+export function createUser(
+  uuid: string,
+  name: string | null,
+  email: string,
+  image: string | null,
+) {
   set(ref(db, 'users/' + uuid), {
     name,
     email,
@@ -92,7 +104,13 @@ export function createUser(uuid, name, email, image) {
 }
 
 // Checks User Exists in Realtime DB. If Not, Creates User
-export function checkUserCreated(uuid, name, email, image, callbackFunc) {
+export function checkUserCreated(
+  uuid: string,
+  name: string | null,
+  email: string,
+  image: string | null,
+  callbackFunc: React.Dispatch<React.SetStateAction<DbUser | null>>,
+) {
   onValue(ref(db, 'users/' + uuid), snapshot => {
     const user = snapshot.val()
     if (!user) {
@@ -103,19 +121,29 @@ export function checkUserCreated(uuid, name, email, image, callbackFunc) {
 }
 
 // Create Post
-export function createPost(body, location, timestamp, uid) {
-  set(ref(db, 'posts/' + Date.now() + generateString(5)), {
+export function createPost(
+  body: string,
+  location: [latitude: number, longitude: number],
+  timestamp: number,
+  uid: string,
+) {
+  const generatedString = Date.now() + generateString(5)
+  set(ref(db, 'posts/' + generatedString), {
     body,
-    location,
     timestamp,
     user: uid,
   })
-    .then(() => alert('Post created successfully'))
+    .then(() => {
+      setGeofireKey(generatedString, location)
+    })
     .catch(err => alert(err.message))
 }
 
 // Gets Logged In User's Posts
-export function getUserPosts(uuid, callbackFunc) {
+export function getUserPosts(
+  uuid: string,
+  callbackFunc: Dispatch<SetStateAction<UserPost[] | undefined>>,
+) {
   const que = query(ref(db, 'posts/'), orderByChild('user'), equalTo(uuid))
   get(que).then(snapshot => {
     callbackFunc(snapshot.val())
