@@ -12,7 +12,7 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ post }) => {
   return (
-    <div className="bg-tertiary rounded-md shadow-lg items-start px-4 py-6 w-max break-inside-avoid">
+    <div className="bg-tertiary rounded-md shadow-lg items-start px-4 py-6 min-w-full break-inside-avoid">
       <div className="flex items-center">
         <h2 className="text-sm font-semibold text-secondary">{post.body}</h2>
       </div>

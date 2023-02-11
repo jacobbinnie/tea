@@ -28,14 +28,14 @@ export const CardContainer: React.FC<CardContainerProps> = ({ posts }) => {
           // eslint-disable-next-line max-len
           className={
             columnCount === 1
-              ? `sm:columns-1 gap-4 space-y-4`
+              ? `sm:columns-1 gap-4 space-y-4 w-full`
               : columnCount === 2
-              ? `sm:columns-1 md:columns-2 gap-4 space-y-4`
+              ? `sm:columns-1 md:columns-2 gap-4 space-y-4 w-full`
               : columnCount === 3
-              ? `sm:columns-1 md:columns-2 lg:columns-2 gap-4 space-y-4`
+              ? `sm:columns-1 md:columns-2 lg:columns-2 gap-4 space-y-4 w-full`
               : columnCount === 4
-              ? `sm:columns-1 md:columns-2 lg:columns-2 gap-4 space-y-4`
-              : `sm:columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4`
+              ? `sm:columns-1 md:columns-2 lg:columns-2 gap-4 space-y-4 w-full`
+              : `sm:columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4 w-full`
           }
         >
           {mappedPosts}

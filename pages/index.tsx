@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Sidebar from '../components/sidebar'
 import Topbar from '../components/topbar'
-import { CardContainer } from '../components/userPostsContainer'
+import { CardContainer } from '../components/CardContainer'
 import { createPost, getNearbyPostIds, getUserPosts } from '../firebase'
 import { PublicPost, UserPost } from '../interfaces'
 import { useAuth } from '../providers/authProvider'
@@ -96,7 +96,7 @@ export default function Home() {
             Nearby Posts within 3 Miles (5km)
           </h2>
         )}
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           <CardContainer posts={nearbyPosts} />
           <button
             type="submit"

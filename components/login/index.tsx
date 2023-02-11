@@ -11,7 +11,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
       <div className="w-full max-w-md space-y-3">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold italic tracking-tight text-primary">
-            Happening
+            tea.wtf
           </h2>
         </div>
         <form
