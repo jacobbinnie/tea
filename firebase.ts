@@ -11,8 +11,8 @@ import {
   equalTo,
 } from 'firebase/database'
 import { GeoFire } from 'geofire'
-import React, { Dispatch, SetStateAction } from 'react'
-import { DbUser, PublicPost, UserPost } from './interfaces'
+import React from 'react'
+import { DbUser, UserPost } from './interfaces'
 import { generateString } from './utils/utils'
 
 const firebaseConfig = {
@@ -60,15 +60,25 @@ export function removeGeofireKey(key: string) {
   )
 }
 
+const addUserImage = async (
+  post: UserPost,
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
+  handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+) => {
+  onValue(ref(db, 'users/' + post.user + '/image'), snapshot => {
+    handleAddToNearbyPosts(post, snapshot.val())
+  })
+}
+
 // Gets Single Post
-export function getPublicPost(
+export const getPublicPost = async (
   postId: string,
   // eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
-  handleAddToNearbyPosts: (post: PublicPost) => void,
-) {
+  handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+) => {
   const que = query(ref(db, 'posts/' + postId))
   get(que).then(snapshot => {
-    handleAddToNearbyPosts(snapshot.val())
+    addUserImage(snapshot.val(), handleAddToNearbyPosts)
   })
 }
 
@@ -76,14 +86,21 @@ export function getNearbyPostIds(
   center: [number, number],
   radius: number,
   // eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
-  handleAddToNearbyPosts: (post: PublicPost) => void,
+  handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
+  handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
   const geoQuery = geoFire.query({
     center,
     radius,
   })
+
   geoQuery.on('key_entered', (key: string) => {
     getPublicPost(key, handleAddToNearbyPosts)
+  })
+
+  geoQuery.on('key_exited', (key: string) => {
+    handleRemoveFromNearbyPosts(key)
   })
 }
 
@@ -142,10 +159,11 @@ export function createPost(
 // Gets Logged In User's Posts
 export function getUserPosts(
   uuid: string,
-  callbackFunc: Dispatch<SetStateAction<UserPost[] | undefined>>,
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
+  handleAddToMyPosts: (posts: UserPost[]) => void,
 ) {
   const que = query(ref(db, 'posts/'), orderByChild('user'), equalTo(uuid))
-  get(que).then(snapshot => {
-    callbackFunc(snapshot.val())
+  get(que).then(async snapshot => {
+    handleAddToMyPosts(snapshot.val())
   })
 }

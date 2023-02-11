@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Sidebar from '../components/sidebar'
 import Topbar from '../components/topbar'
-import { UserPostsContainer } from '../components/userPostsContainer'
+import { CardContainer } from '../components/userPostsContainer'
 import { createPost, getNearbyPostIds, getUserPosts } from '../firebase'
 import { PublicPost, UserPost } from '../interfaces'
 import { useAuth } from '../providers/authProvider'
@@ -11,17 +11,49 @@ export default function Home() {
     [latitude: number, longitude: number] | undefined
   >()
   const [newBody, setNewBody] = useState<string | undefined>()
-  const [userPosts, setUserPosts] = useState<UserPost[] | undefined>()
+  const [myPosts, setMyPosts] = useState<PublicPost[]>([])
   const [nearbyPosts, setNearbyPosts] = useState<PublicPost[]>([])
 
-  const { user, dbUser } = useAuth()
+  const { user } = useAuth()
 
-  if (nearbyPosts && nearbyPosts.length > 0) {
-    console.log(nearbyPosts)
+  const handleAddToNearbyPosts = (post: UserPost, image: string) => {
+    const nearbyPost = {
+      body: post.body,
+      timestamp: post.timestamp,
+      user: post.user,
+      image,
+    }
+    setNearbyPosts(prevState => [...prevState, nearbyPost])
   }
 
-  const handleAddToNearbyPosts = (post: PublicPost) => {
-    setNearbyPosts(prevState => [...prevState, post])
+  const handleAddToMyPosts = (posts: UserPost[]) => {
+    const newArray: PublicPost[] = []
+    Object.values(posts).forEach(post => {
+      const newValue = {
+        ...post,
+        image: user?.user.photoURL,
+      }
+      newArray.push(newValue)
+    })
+    setMyPosts(newArray)
+  }
+
+  const handleRemoveFromNearbyPosts = (key: string) => {
+    setNearbyPosts(prevState =>
+      prevState.filter(post => post !== prevState[key]),
+    )
+  }
+
+  const getNearbyPosts = (
+    location: [latitude: number, longitude: number],
+    radius: number,
+  ) => {
+    getNearbyPostIds(
+      location,
+      radius,
+      handleAddToNearbyPosts,
+      handleRemoveFromNearbyPosts,
+    )
   }
 
   const getLocation = () => {
@@ -42,7 +74,7 @@ export default function Home() {
   }
 
   const loadUserPosts = (uuid: string) => {
-    getUserPosts(uuid, setUserPosts)
+    getUserPosts(uuid, handleAddToMyPosts)
   }
 
   useEffect(() => {
@@ -52,21 +84,44 @@ export default function Home() {
     }
   }, [])
 
-  const getNearbyPosts = (
-    location: [latitude: number, longitude: number],
-    radius: number,
-  ) => {
-    getNearbyPostIds(location, radius, handleAddToNearbyPosts)
-  }
-
   return (
     <div className="flex overflow-hidden min-h-screen bg-gray-200">
       <Sidebar />
       <Topbar />
-      <div className="flex flex-col ml-24 mt-24 p-8 w-full items-center">
-        <UserPostsContainer userPosts={userPosts} dbUser={dbUser} />
+      <div className="flex flex-col ml-24 mt-24 p-8 w-full items-center gap-5">
+        <h2 className="mt-4 mb-2 text-secondary">My Posts</h2>
+        <CardContainer posts={myPosts} />
+        {nearbyPosts.length > 0 && (
+          <h2 className="mt-4 mb-2 text-secondary">
+            Nearby Posts within 3 Miles (5km)
+          </h2>
+        )}
+        <div className="flex flex-col">
+          <CardContainer posts={nearbyPosts} />
+          <button
+            type="submit"
+            // eslint-disable-next-line max-len
+            className="mt-4 text-tertiary bg-gray-300 hover:bg-gray-200 disabled:bg-secondary focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center mr-2 mb-2 shadow-xl"
+            onClick={e => {
+              e.preventDefault()
+              if (location) {
+                getNearbyPosts(location, 5)
+              }
+            }}
+          >
+            Get nearby posts
+          </button>
+        </div>
         <div>
-          <h2>Your location is {location}</h2>
+          {location && (
+            <>
+              <h5 className="text-secondary font-semibold text-center">
+                Your location is:
+              </h5>
+              <h5 className="text-secondary">Latitude: {location[0]}</h5>
+              <h5 className="text-secondary">Longitude: {location[1]}</h5>
+            </>
+          )}
         </div>
         <textarea
           id="message"
@@ -87,19 +142,6 @@ export default function Home() {
           }}
         >
           Submit
-        </button>
-        <button
-          type="submit"
-          // eslint-disable-next-line max-len
-          className="text-tertiary bg-gray-300 hover:bg-gray-200 disabled:bg-secondary focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
-          onClick={e => {
-            e.preventDefault()
-            if (location) {
-              getNearbyPosts(location, 5)
-            }
-          }}
-        >
-          Get nearby posts
         </button>
       </div>
     </div>

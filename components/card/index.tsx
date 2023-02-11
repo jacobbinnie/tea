@@ -2,16 +2,15 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import React from 'react'
-import { DbUser, UserPost } from '../../interfaces'
+import { PublicPost } from '../../interfaces'
 import ThumbsUp from '../../assets/icons/thumbs-up.svg'
 import ThumbsDown from '../../assets/icons/thumbs-down.svg'
 
 interface CardProps {
-  post: UserPost
-  dbUser: DbUser | null
+  post: PublicPost
 }
 
-export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
+export const Card: React.FC<CardProps> = ({ post }) => {
   return (
     <div className="bg-tertiary rounded-md shadow-lg items-start px-4 py-6 w-max break-inside-avoid">
       <div className="flex items-center">
@@ -19,10 +18,10 @@ export const Card: React.FC<CardProps> = ({ post, dbUser }) => {
       </div>
 
       <div className="flex flex-row items-center justify-between w-full mt-4">
-        {dbUser && (
+        {post.image && (
           <Image
             className="w-6 h-6 rounded-full object-cover border"
-            src={dbUser.image}
+            src={post.image}
             alt="avatar"
             width={20}
             height={20}

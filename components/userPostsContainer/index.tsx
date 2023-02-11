@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { DbUser, UserPost } from '../../interfaces'
+import { PublicPost } from '../../interfaces'
 import Card from '../card'
 
 interface CardContainerProps {
-  dbUser: DbUser | null
-  userPosts: UserPost[] | undefined
+  posts: PublicPost[] | undefined
 }
 
-export const UserPostsContainer: React.FC<CardContainerProps> = ({
-  dbUser,
-  userPosts,
-}) => {
+export const CardContainer: React.FC<CardContainerProps> = ({ posts }) => {
   const [mappedPosts, setMappedPosts] = useState<JSX.Element[] | undefined>()
   const [layout, setLayout] = useState<JSX.Element | undefined>()
 
   const mapPosts = () => {
-    if (userPosts) {
-      const dataMapping = Object.keys(userPosts).map(item => (
-        <Card key={item} post={userPosts[item]} dbUser={dbUser} />
+    if (posts) {
+      const dataMapping = Object.keys(posts).map(item => (
+        <Card key={item} post={posts[item]} />
       ))
       setMappedPosts(dataMapping)
     }
   }
 
   const layoutBuilder = () => {
-    if (mappedPosts && userPosts) {
-      const columnCount = Object.keys(userPosts).length
+    if (mappedPosts && posts) {
+      const columnCount = Object.keys(posts).length
 
       return (
         <div
@@ -33,13 +29,13 @@ export const UserPostsContainer: React.FC<CardContainerProps> = ({
           className={
             columnCount === 1
               ? `sm:columns-1 gap-4 space-y-4`
-              : columnCount < 3
+              : columnCount === 2
               ? `sm:columns-1 md:columns-2 gap-4 space-y-4`
-              : columnCount < 4
-              ? `sm:columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4`
-              : columnCount < 5
-              ? `sm:columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4`
-              : `sm:columns-1 md:columns-2 lg:columns-4 gap-4 space-y-4`
+              : columnCount === 3
+              ? `sm:columns-1 md:columns-2 lg:columns-2 gap-4 space-y-4`
+              : columnCount === 4
+              ? `sm:columns-1 md:columns-2 lg:columns-2 gap-4 space-y-4`
+              : `sm:columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4`
           }
         >
           {mappedPosts}
@@ -50,7 +46,7 @@ export const UserPostsContainer: React.FC<CardContainerProps> = ({
 
   useEffect(() => {
     mapPosts()
-  }, [userPosts])
+  }, [posts])
 
   useEffect(() => {
     if (mappedPosts) {

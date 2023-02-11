@@ -15,10 +15,8 @@ export interface UserPost {
   user: string
 }
 
-export interface PublicPost {
-  body: string
-  timestamp: number
-  user: string
+export interface PublicPost extends UserPost {
+  image?: string | null | undefined
 }
 
 export interface DbUser {
