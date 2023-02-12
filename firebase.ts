@@ -4,7 +4,6 @@ import {
   getDatabase,
   ref,
   set,
-  onValue,
   query,
   get,
   orderByChild,
@@ -65,7 +64,8 @@ const addUserImage = async (
   // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleAddToNearbyPosts: (post: UserPost, image: string) => void,
 ) => {
-  onValue(ref(db, 'users/' + post.user + '/image'), snapshot => {
+  const que = query(ref(db, 'users/' + post.user + '/image'))
+  get(que).then(snapshot => {
     handleAddToNearbyPosts(post, snapshot.val())
   })
 }
@@ -128,7 +128,8 @@ export function checkUserCreated(
   image: string | null,
   callbackFunc: React.Dispatch<React.SetStateAction<DbUser | null>>,
 ) {
-  onValue(ref(db, 'users/' + uuid), snapshot => {
+  const que = query(ref(db, 'users/' + uuid))
+  get(que).then(snapshot => {
     const user = snapshot.val()
     if (!user) {
       createUser(uuid, name, email, image)
