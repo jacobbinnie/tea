@@ -86,7 +86,7 @@ export default function Home() {
     <div className="flex overflow-hidden min-h-screen bg-gray-200">
       {/* <Sidebar /> */}
       {/* <Topbar /> */}
-      <div className="flex flex-col mt-24 p-8 w-full items-center gap-5">
+      <div className="flex flex-col mt-24 p-4 w-full items-center gap-5">
         <h2 className="mt-4 mb-2 text-secondary">My Posts</h2>
         <CardContainer posts={myPosts} />
         {nearbyPosts.length > 0 && (
@@ -125,14 +125,14 @@ export default function Home() {
           id="message"
           rows={4}
           // eslint-disable-next-line max-len
-          className="block p-2.5 text-sm w-1/2 bg-tertiary text-gray-300 rounded-lg border border-gray-300"
+          className="block p-2.5 text-sm w-full bg-gray-200 text-gray-300 rounded-lg border focus:outline-none border-gray-300"
           placeholder="Write your thoughts here..."
           onChange={e => setNewBody(e.target.value)}
         />
         <button
           type="submit"
           // eslint-disable-next-line max-len
-          className="text-tertiary bg-gray-300 hover:bg-gray-200 disabled:bg-secondary focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
+          className="text-tertiary bg-secondary hover:bg-gray-200 disabled:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-8 py-2.5 text-center inline-flex items-center mr-2 mb-2 shadow-xl"
           disabled={!newBody ? true : false}
           onClick={e => {
             e.preventDefault()

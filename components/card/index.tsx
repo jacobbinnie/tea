@@ -17,7 +17,7 @@ export const Card: React.FC<CardProps> = ({ post }) => {
         <h2 className="text-sm font-semibold text-secondary">{post.body}</h2>
       </div>
 
-      <div className="flex flex-row items-center justify-between w-full mt-4">
+      <div className="flex flex-row items-center justify-between w-full mt-6">
         {post.image && (
           <Image
             className="w-6 h-6 rounded-full object-cover border"
@@ -27,8 +27,8 @@ export const Card: React.FC<CardProps> = ({ post }) => {
             height={20}
           />
         )}
-        <div className="flex gap-5 items-center">
-          <div className="bg-primary text-tertiary text-semibold px-5 py-1 rounded text-xs cursor-pointer hover:opacity-90 shadow-md transition-all">
+        <div className="flex gap-6 items-center">
+          <div className="bg-primary text-tertiary text-semibold px-4 py-1 rounded text-sm cursor-pointer hover:opacity-90 shadow-md transition-all">
             Reply
           </div>
 
