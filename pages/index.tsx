@@ -87,7 +87,7 @@ export default function Home() {
     <div className="flex overflow-hidden min-h-screen bg-gray-200">
       {/* <Sidebar /> */}
       <Topbar />
-      <div className="flex flex-col ml-24 mt-24 p-8 w-full items-center gap-5">
+      <div className="flex flex-col mt-24 p-8 w-full items-center gap-5">
         <h2 className="mt-4 mb-2 text-secondary">My Posts</h2>
         <CardContainer posts={myPosts} />
         {nearbyPosts.length > 0 && (
