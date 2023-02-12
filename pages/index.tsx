@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import Topbar from '../components/topbar'
 import { CardContainer } from '../components/CardContainer'
 import { createPost, getNearbyPostIds, getUserPosts } from '../firebase'
 import { PublicPost, UserPost } from '../interfaces'
@@ -86,7 +85,7 @@ export default function Home() {
   return (
     <div className="flex overflow-hidden min-h-screen bg-gray-200">
       {/* <Sidebar /> */}
-      <Topbar />
+      {/* <Topbar /> */}
       <div className="flex flex-col mt-24 p-8 w-full items-center gap-5">
         <h2 className="mt-4 mb-2 text-secondary">My Posts</h2>
         <CardContainer posts={myPosts} />

@@ -28,7 +28,7 @@ export const Card: React.FC<CardProps> = ({ post }) => {
           />
         )}
         <div className="flex gap-5 items-center">
-          <div className="bg-primary px-5 py-1 rounded text-xs cursor-pointer hover:opacity-90 shadow-md transition-all">
+          <div className="bg-primary text-tertiary text-semibold px-5 py-1 rounded text-xs cursor-pointer hover:opacity-90 shadow-md transition-all">
             Reply
           </div>
 
