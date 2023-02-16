@@ -23,7 +23,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
         className="text-white font-medium rounded-lg border-gray-100 border-[1px] py-3 px-10 hover:border-tertiary transition-all duration-300"
       >
         <svg
-          className="w-4 h-4"
+          className="w-4 h-4 text-tertiary"
           aria-hidden="true"
           focusable="false"
           data-prefix="fab"
