@@ -12,9 +12,9 @@ interface CardProps {
 
 export const Card: React.FC<CardProps> = ({ post }) => {
   return (
-    <div className="bg-tertiary rounded-md shadow-lg items-start px-4 py-6 min-w-full break-inside-avoid">
+    <div className="rounded-md shadow-lg items-start px-4 py-6 min-w-full break-inside-avoid border-gray-100 border-[1px] hover:border-tertiary transition-all duration-500">
       <div className="flex items-center">
-        <h2 className="text-sm font-semibold text-secondary">{post.body}</h2>
+        <h2 className="text-sm font-semibold text-tertiary">{post.body}</h2>
       </div>
 
       <div className="flex flex-row items-center justify-between w-full mt-6">
@@ -32,10 +32,10 @@ export const Card: React.FC<CardProps> = ({ post }) => {
             Reply
           </div>
 
-          <div className="flex text-gray-300 text-sm cursor-pointer hover:opacity-90 hover:mb-1 transition-all">
+          <div className="flex text-gray-100 text-sm cursor-pointer hover:text-tertiary transition-all duration-300">
             <ThumbsUp />
           </div>
-          <div className="flex text-gray-300 text-sm cursor-pointer hover:opacity-90 hover:mt-1 transition-all">
+          <div className="flex text-gray-100 text-sm cursor-pointer hover:text-tertiary transition-all duration-300">
             <ThumbsDown />
           </div>
         </div>

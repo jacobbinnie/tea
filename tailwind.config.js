@@ -16,13 +16,11 @@ module.exports = {
       sans: ['Poppins, sans-serif'],
     },
     colors: {
-      primary: '#4e67f5', // MAIN COLOR
-      secondary: '#0a0a0a', // OFF-BLACK
-      tertiary: '#fffefe', // OFF-WHITE
+      primary: '#301fed', // MAIN COLOR
+      secondary: '#010001', // OFF-BLACK
+      tertiary: '#fefffe', // OFF-WHITE
       gray: {
-        100: '#f6f9fa', // BACKGROUND
-        200: '#eceff0', // LIKE / DISLIKE BUTTONS
-        300: '#d1d8dc', // NAV BUTTONS
+        100: '#323332', // BORDERS
       },
     },
     extend: {
