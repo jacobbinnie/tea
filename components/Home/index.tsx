@@ -78,9 +78,11 @@ export default function Home() {
   }, [location])
 
   useEffect(() => {
-    if (location && geoFire && db) {
+    let count = 0
+    if (location && geoFire && db && count === 0) {
       console.log('Location, Geofire & DB Initialized')
       getNearbyPosts(location, 3)
+      count = 1
     }
   }, [location, geoFire, db])
 
