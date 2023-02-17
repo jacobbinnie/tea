@@ -9,7 +9,7 @@ import {
   orderByChild,
   equalTo,
 } from 'firebase/database'
-import { GeoFire } from 'geofire'
+import { GeoFire, GeoQuery } from 'geofire'
 import React from 'react'
 import { DbUser, UserPost } from './interfaces'
 import { generateString } from './utils/utils'
@@ -26,13 +26,13 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
-const db = getDatabase()
+export const db = getDatabase()
 
 // Create a Firebase reference where GeoFire will store its information
 const firebaseRef = ref(db, 'geofireKeys/')
 
 // Create a GeoFire index
-const geoFire = new GeoFire(firebaseRef)
+export const geoFire = new GeoFire(firebaseRef)
 
 export function setGeofireKey(
   key: string,
@@ -90,13 +90,26 @@ export function getNearbyPostIds(
   // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
-  const geoQuery = geoFire.query({
-    center,
-    radius,
-  })
+  let geoQuery: GeoQuery | undefined
+  const processedIds: string[] = []
+
+  if (geoQuery !== undefined) {
+    console.log('Updating Query')
+    geoQuery.updateCriteria({
+      center,
+      radius,
+    })
+  } else {
+    geoQuery = geoFire.query({
+      center,
+      radius,
+    })
+  }
 
   geoQuery.on('key_entered', (key: string) => {
-    getPublicPost(key, handleAddToNearbyPosts)
+    if (!processedIds.includes(key)) {
+      getPublicPost(key, handleAddToNearbyPosts)
+    }
   })
 
   geoQuery.on('key_exited', (key: string) => {
