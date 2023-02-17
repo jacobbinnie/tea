@@ -28,7 +28,16 @@ export default function Home() {
       user: post.user,
       image,
     }
-    setNearbyPosts(prevState => [...prevState, nearbyPost])
+    setNearbyPosts(prevState => {
+      const alreadyExists = prevState.some(
+        prevPost =>
+          prevPost.body === nearbyPost.body &&
+          prevPost.timestamp === nearbyPost.timestamp &&
+          prevPost.user === nearbyPost.user &&
+          prevPost.image === nearbyPost.image,
+      )
+      return alreadyExists ? prevState : [...prevState, nearbyPost]
+    })
   }
 
   const handleAddToMyPosts = (posts: UserPost[]) => {
@@ -78,11 +87,9 @@ export default function Home() {
   }, [location])
 
   useEffect(() => {
-    let count = 0
-    if (location && geoFire && db && count === 0) {
+    if (location && geoFire && db) {
       console.log('Location, Geofire & DB Initialized')
       getNearbyPosts(location, 3)
-      count = 1
     }
   }, [location, geoFire, db])
 
