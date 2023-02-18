@@ -19,10 +19,10 @@ export default function Home() {
   >()
   const [newBody, setNewBody] = useState<string | undefined>()
   const [nearbyPosts, setNearbyPosts] = useState<PublicPost[]>([])
-  const [gettingNearbyPosts, setGettingNearbyPosts] = useState(false)
+  const [gettingNearbyPosts, setGettingNearbyPosts] = useState(true)
 
   const [myPosts, setMyPosts] = useState<PublicPost[]>([])
-  const [gettingMyPosts, setGettingMyPosts] = useState(false)
+  const [gettingMyPosts, setGettingMyPosts] = useState(true)
 
   const [tab, setTab] = useState<'home' | 'myPosts'>('home')
 
@@ -97,14 +97,12 @@ export default function Home() {
 
   useEffect(() => {
     if (location && geoFire && db && nearbyPosts.length === 0) {
-      setGettingNearbyPosts(true)
       getNearbyPosts(location, 3)
     }
   }, [location, geoFire, db])
 
   useEffect(() => {
     if (tab === 'myPosts' && user) {
-      setGettingMyPosts(true)
       getUserPosts(user?.user.uid, handleAddToMyPosts)
     }
   }, [tab])
