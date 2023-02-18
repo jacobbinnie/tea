@@ -7,7 +7,7 @@ interface LoadingProps {
 
 export const Loading: React.FC<LoadingProps> = ({ loadingMessage }) => {
   return (
-    <div className="gap-5 w-screen h-screen flex flex-col justify-center items-center">
+    <div className="gap-5 w-full h-full flex flex-col justify-center items-center">
       <div className="fill-tertiary">
         <Spinner />
       </div>

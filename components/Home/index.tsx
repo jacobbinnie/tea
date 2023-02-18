@@ -1,20 +1,47 @@
 import { useCallback, useEffect, useState } from 'react'
 import Topbar from '../Topbar'
-import { createPost, db, geoFire, getNearbyPostIds } from '../../firebase'
+import {
+  createPost,
+  db,
+  geoFire,
+  getNearbyPostIds,
+  getUserPosts,
+} from '../../firebase'
 import { PublicPost, UserPost } from '../../interfaces'
 import { useAuth } from '../../providers/authProvider'
 import NearbyPosts from '../NearbyPosts'
 import Loading from '../Loading'
+import Profile from '../MyPosts'
 
 export default function Home() {
   const [location, setLocation] = useState<
     [latitude: number, longitude: number] | undefined
   >()
   const [newBody, setNewBody] = useState<string | undefined>()
-  const [myPosts, setMyPosts] = useState<PublicPost[]>([])
   const [nearbyPosts, setNearbyPosts] = useState<PublicPost[]>([])
+  const [gettingNearbyPosts, setGettingNearbyPosts] = useState(false)
+
+  const [myPosts, setMyPosts] = useState<PublicPost[]>([])
+  const [gettingMyPosts, setGettingMyPosts] = useState(false)
+
+  const [tab, setTab] = useState<'home' | 'myPosts'>('home')
 
   const { user } = useAuth()
+
+  const handleAddToMyPosts = (posts: UserPost[]) => {
+    const newArray: PublicPost[] = []
+    if (posts) {
+      Object.values(posts).forEach(post => {
+        const newValue = {
+          ...post,
+          image: user?.user.photoURL,
+        }
+        newArray.push(newValue)
+      })
+      setMyPosts(newArray)
+      setGettingMyPosts(false)
+    }
+  }
 
   const handleAddToNearbyPosts = (post: UserPost, image: string) => {
     const nearbyPost = {
@@ -33,20 +60,7 @@ export default function Home() {
       )
       return alreadyExists ? prevState : [...prevState, nearbyPost]
     })
-  }
-
-  const handleAddToMyPosts = (posts: UserPost[]) => {
-    const newArray: PublicPost[] = []
-    if (posts) {
-      Object.values(posts).forEach(post => {
-        const newValue = {
-          ...post,
-          image: user?.user.photoURL,
-        }
-        newArray.push(newValue)
-      })
-      setMyPosts(newArray)
-    }
+    setGettingNearbyPosts(false)
   }
 
   const handleRemoveFromNearbyPosts = (key: string) => {
@@ -83,27 +97,44 @@ export default function Home() {
 
   useEffect(() => {
     if (location && geoFire && db) {
-      console.log('Location, Geofire & DB Initialized')
+      setGettingNearbyPosts(true)
       getNearbyPosts(location, 3)
     }
   }, [location, geoFire, db])
+
+  useEffect(() => {
+    if (tab === 'myPosts' && user) {
+      setGettingMyPosts(true)
+      getUserPosts(user?.user.uid, handleAddToMyPosts)
+    }
+  }, [tab])
 
   useEffect(() => {
     updateLocation()
   }, [])
 
   if (!location) {
-    return <Loading loadingMessage="Retrieving Location..." />
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <Loading loadingMessage="Retrieving Location..." />
+      </div>
+    )
   }
 
   return (
     <div className="flex overflow-hidden min-h-screen bg-secondary">
       <>
-        <Topbar user={user && user.user} />
+        <Topbar user={user && user.user} setTab={setTab} />
         <div className="w-full flex justify-center">
           <div className="flex flex-col mt-24 p-4 w-full max-w-6xl gap-5">
-            <NearbyPosts nearbyPosts={nearbyPosts} />
-            {/* {myPosts.length > 0 && <MyPosts myPosts={myPosts} />} */}
+            {tab === 'home' ? (
+              <NearbyPosts
+                nearbyPosts={nearbyPosts}
+                gettingNearbyPosts={gettingNearbyPosts}
+              />
+            ) : (
+              <Profile myPosts={myPosts} gettingMyPosts={gettingMyPosts} />
+            )}
 
             <div>
               {location && (
