@@ -1,15 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-import { CardContainer } from '../CardContainer'
-import Topbar from '../topbar'
-import {
-  createPost,
-  db,
-  geoFire,
-  getNearbyPostIds,
-  getUserPosts,
-} from '../../firebase'
+import Topbar from '../Topbar'
+import { createPost, db, geoFire, getNearbyPostIds } from '../../firebase'
 import { PublicPost, UserPost } from '../../interfaces'
 import { useAuth } from '../../providers/authProvider'
+import NearbyPosts from '../NearbyPosts'
+import Loading from '../Loading'
 
 export default function Home() {
   const [location, setLocation] = useState<
@@ -97,40 +92,18 @@ export default function Home() {
     updateLocation()
   }, [])
 
+  if (!location) {
+    return <Loading loadingMessage="Retrieving Location..." />
+  }
+
   return (
     <div className="flex overflow-hidden min-h-screen bg-secondary">
       <>
         <Topbar user={user && user.user} />
         <div className="w-full flex justify-center">
           <div className="flex flex-col mt-24 p-4 w-full max-w-6xl gap-5">
-            {nearbyPosts.length > 0 && (
-              <h2 className="text-lg text-center font-semibold text-tertiary">
-                Posts Near You
-              </h2>
-            )}
-            <div className="flex flex-col w-full">
-              <CardContainer posts={nearbyPosts} />
-            </div>
-            {myPosts.length > 0 && (
-              <>
-                <h2 className="text-lg text-center font-semibold text-tertiary">
-                  My Posts
-                </h2>
-                <CardContainer posts={myPosts} />
-              </>
-            )}
-            <button
-              type="submit"
-              // eslint-disable-next-line max-len
-              className="mt-4 text-tertiary font-medium rounded-lg px-10 py-3 text-center mr-2 shadow-xl border-gray-100 border-[1px] hover:border-tertiary transition-all duration-300"
-              onClick={() => {
-                if (location && user) {
-                  getUserPosts(user?.user.uid, handleAddToMyPosts)
-                }
-              }}
-            >
-              Get My Posts
-            </button>
+            <NearbyPosts nearbyPosts={nearbyPosts} />
+            {/* {myPosts.length > 0 && <MyPosts myPosts={myPosts} />} */}
 
             <div>
               {location && (

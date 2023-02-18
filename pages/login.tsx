@@ -1,4 +1,4 @@
-import LoginModal from '../components/login'
+import LoginModal from '../components/Login'
 import { useAuth } from '../providers/authProvider'
 
 export default function Login() {
