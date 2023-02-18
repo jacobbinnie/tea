@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { PublicPost } from '../../interfaces'
-import Card from '../Card'
+import Card from '../Post'
 
-interface CardContainerProps {
+interface PostContainerProps {
   posts: PublicPost[] | undefined
 }
 
-export const CardContainer: React.FC<CardContainerProps> = ({ posts }) => {
+export const PostContainer: React.FC<PostContainerProps> = ({ posts }) => {
   const [mappedPosts, setMappedPosts] = useState<JSX.Element[] | undefined>()
   const [layout, setLayout] = useState<JSX.Element | undefined>()
 
@@ -59,3 +59,5 @@ export const CardContainer: React.FC<CardContainerProps> = ({ posts }) => {
   }
   return <h5>You have no posts</h5>
 }
+
+export default PostContainer

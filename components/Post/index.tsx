@@ -6,11 +6,11 @@ import { PublicPost } from '../../interfaces'
 import ThumbsUp from '../../assets/icons/thumbs-up.svg'
 import ThumbsDown from '../../assets/icons/thumbs-down.svg'
 
-interface CardProps {
+interface PostProps {
   post: PublicPost
 }
 
-export const Card: React.FC<CardProps> = ({ post }) => {
+export const Post: React.FC<PostProps> = ({ post }) => {
   return (
     <div className="rounded-md shadow-lg items-start px-4 py-6 min-w-full break-inside-avoid border-gray-100 border-[1px] hover:border-tertiary transition-all duration-500">
       <div className="flex items-center">
@@ -47,4 +47,4 @@ export const Card: React.FC<CardProps> = ({ post }) => {
   )
 }
 
-export default Card
+export default Post

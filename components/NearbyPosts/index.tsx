@@ -1,6 +1,6 @@
 import React from 'react'
 import { PublicPost } from '../../interfaces'
-import { CardContainer } from '../CardContainer'
+import { CardContainer } from '../PostContainer'
 import Loading from '../Loading'
 
 interface NearbyPostsProps {
