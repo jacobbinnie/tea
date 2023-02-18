@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import Topbar from '../Topbar/index'
+import Topbar from '../topbar'
 import {
   createPost,
   db,
