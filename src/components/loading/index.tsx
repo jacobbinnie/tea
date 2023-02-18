@@ -1,5 +1,5 @@
 import React from 'react'
-import Spinner from '../../assets/loading.svg'
+import Spinner from '../../../assets/loading.svg'
 
 interface LoadingProps {
   loadingMessage?: string

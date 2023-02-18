@@ -1,5 +1,5 @@
 import React from 'react'
-import { PublicPost } from '../../interfaces'
+import { PublicPost } from '../../../interfaces'
 import Loading from '../loading'
 import PostContainer from '../postContainer'
 

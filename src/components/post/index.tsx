@@ -2,9 +2,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from 'next/image'
 import React from 'react'
-import { PublicPost } from '../../interfaces'
-import ThumbsUp from '../../assets/icons/thumbs-up.svg'
-import ThumbsDown from '../../assets/icons/thumbs-down.svg'
+import { PublicPost } from '../../../interfaces'
+import ThumbsUp from '../../../assets/icons/thumbs-up.svg'
+import ThumbsDown from '../../../assets/icons/thumbs-down.svg'
 
 interface PostProps {
   post: PublicPost

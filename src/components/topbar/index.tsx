@@ -1,8 +1,8 @@
 import { User } from 'firebase/auth'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction } from 'react'
-import HomeIcon from '../../assets/icons/home.svg'
-import MyPosts from '../../assets/icons/server.svg'
+import HomeIcon from '../../../assets/icons/home.svg'
+import MyPosts from '../../../assets/icons/server.svg'
 
 interface TopbarProps {
   user: User | null

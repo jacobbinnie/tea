@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { PublicPost } from '../../interfaces'
+import { PublicPost } from '../../../interfaces'
 import Card from '../post'
 
 interface PostContainerProps {
