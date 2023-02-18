@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import Topbar from '../Topbar'
+import { Topbar } from '../Topbar'
 import {
   createPost,
   db,
@@ -9,9 +9,9 @@ import {
 } from '../../firebase'
 import { PublicPost, UserPost } from '../../interfaces'
 import { useAuth } from '../../providers/authProvider'
-import NearbyPosts from '../NearbyPosts'
-import Loading from '../Loading'
-import Profile from '../MyPosts'
+import { NearbyPosts } from '../NearbyPosts'
+import { Loading } from '../Loading'
+import { MyPosts } from '../MyPosts'
 
 export default function Home() {
   const [location, setLocation] = useState<
@@ -132,7 +132,7 @@ export default function Home() {
               gettingNearbyPosts={gettingNearbyPosts}
             />
           ) : (
-            <Profile myPosts={myPosts} gettingMyPosts={gettingMyPosts} />
+            <MyPosts myPosts={myPosts} gettingMyPosts={gettingMyPosts} />
           )}
 
           <div>
