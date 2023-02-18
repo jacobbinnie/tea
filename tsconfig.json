@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -14,8 +15,15 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "downlevelIteration": true,
     "suppressImplicitAnyIndexErrors": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "firebase.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/Support/data/PwcFAQs.tsxx",
+    "custom.d.ts"
+  ],
   "exclude": ["node_modules"]
 }
