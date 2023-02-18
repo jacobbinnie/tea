@@ -9,7 +9,7 @@ import {
 } from '../../firebase'
 import { PublicPost, UserPost } from '../../interfaces'
 import { useAuth } from '../../providers/authProvider'
-import { NearbyPosts } from '../nearbyPosts'
+import NearbyPosts from '../nearbyPosts'
 import Loading from '../loading'
 import MyPosts from '../myPosts'
 
