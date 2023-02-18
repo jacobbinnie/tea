@@ -96,7 +96,7 @@ export default function Home() {
   }, [location])
 
   useEffect(() => {
-    if (location && geoFire && db) {
+    if (location && geoFire && db && !nearbyPosts) {
       setGettingNearbyPosts(true)
       getNearbyPosts(location, 3)
     }
