@@ -1,7 +1,7 @@
 import React from 'react'
 import { PublicPost } from '../../interfaces'
-import Loading from '../Loading'
-import PostContainer from '../PostContainer'
+import Loading from '../loading'
+import PostContainer from '../postContainer'
 
 interface NearbyPostsProps {
   nearbyPosts: PublicPost[]

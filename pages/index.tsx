@@ -1,4 +1,4 @@
-import Home from '../components/Home'
+import Home from '../components/home'
 import { useAuth } from '../providers/authProvider'
 
 export default function HomeBuilder() {

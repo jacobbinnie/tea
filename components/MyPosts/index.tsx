@@ -1,7 +1,7 @@
 import React from 'react'
 import { PublicPost } from '../../interfaces'
-import { PostContainer } from '../PostContainer'
-import Loading from '../Loading'
+import { PostContainer } from '../postContainer'
+import Loading from '../loading'
 
 interface MyPostsProps {
   myPosts: PublicPost[]
