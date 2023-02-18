@@ -9,9 +9,9 @@ import {
 } from '../../firebase'
 import { PublicPost, UserPost } from '../../interfaces'
 import { useAuth } from '../../providers/authProvider'
-import NearbyPosts from '../nearbyPosts/index'
-import Loading from '../loading/index'
-import MyPosts from '../myPosts/index'
+import NearbyPosts from '../nearbyPosts'
+import Loading from '../loading'
+import MyPosts from '../myPosts'
 
 export default function Home() {
   const [location, setLocation] = useState<
