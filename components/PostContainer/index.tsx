@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PublicPost } from '../../interfaces'
-import Card from '../Post'
+import Card from '../Post/index'
 
 interface PostContainerProps {
   posts: PublicPost[] | undefined
