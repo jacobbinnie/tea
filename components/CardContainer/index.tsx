@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { PublicPost } from '../../interfaces'
+import Card from '../Card'
 
 interface CardContainerProps {
   posts: PublicPost[] | undefined
@@ -9,14 +10,14 @@ export const CardContainer: React.FC<CardContainerProps> = ({ posts }) => {
   const [mappedPosts, setMappedPosts] = useState<JSX.Element[] | undefined>()
   const [layout, setLayout] = useState<JSX.Element | undefined>()
 
-  // const mapPosts = () => {
-  //   if (posts) {
-  //     const dataMapping = Object.keys(posts).map(item => (
-  //       <Card key={item} post={posts[item]} />
-  //     ))
-  //     setMappedPosts(dataMapping)
-  //   }
-  // }
+  const mapPosts = () => {
+    if (posts) {
+      const dataMapping = Object.keys(posts).map(item => (
+        <Card key={item} post={posts[item]} />
+      ))
+      setMappedPosts(dataMapping)
+    }
+  }
 
   const layoutBuilder = () => {
     if (mappedPosts && posts) {
@@ -43,9 +44,9 @@ export const CardContainer: React.FC<CardContainerProps> = ({ posts }) => {
     }
   }
 
-  // useEffect(() => {
-  //   mapPosts()
-  // }, [posts])
+  useEffect(() => {
+    mapPosts()
+  }, [posts])
 
   useEffect(() => {
     if (mappedPosts) {
