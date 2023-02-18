@@ -1,7 +1,7 @@
 import React from 'react'
 import { PublicPost } from '../../interfaces'
-import { CardContainer } from '../PostContainer'
 import Loading from '../Loading'
+import PostContainer from '../PostContainer'
 
 interface NearbyPostsProps {
   nearbyPosts: PublicPost[]
@@ -23,7 +23,7 @@ export const NearbyPosts: React.FC<NearbyPostsProps> = ({
       </h2>
 
       <div className="flex flex-col w-full">
-        <CardContainer posts={nearbyPosts} />
+        <PostContainer posts={nearbyPosts} />
       </div>
     </>
   )

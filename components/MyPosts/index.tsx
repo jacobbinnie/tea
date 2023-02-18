@@ -1,14 +1,14 @@
 import React from 'react'
 import { PublicPost } from '../../interfaces'
-import { CardContainer } from '../PostContainer'
+import { PostContainer } from '../PostContainer'
 import Loading from '../Loading'
 
-interface ProfileProps {
+interface MyPostsProps {
   myPosts: PublicPost[]
   gettingMyPosts: boolean
 }
 
-export const Profile: React.FC<ProfileProps> = ({
+export const MyPosts: React.FC<MyPostsProps> = ({
   myPosts,
   gettingMyPosts,
 }) => {
@@ -22,7 +22,7 @@ export const Profile: React.FC<ProfileProps> = ({
         <h2 className="text-lg text-center font-semibold text-tertiary">
           My Posts
         </h2>
-        <CardContainer posts={myPosts} />
+        <PostContainer posts={myPosts} />
       </>
     )
   } else {
@@ -30,4 +30,4 @@ export const Profile: React.FC<ProfileProps> = ({
   }
 }
 
-export default Profile
+export default MyPosts
