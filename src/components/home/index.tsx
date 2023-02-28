@@ -138,14 +138,14 @@ export default function Home() {
           <div>
             {location && (
               <>
-                <h2 className="text-lg text-center font-semibold text-tertiary">
-                  Your location is:
+                <h2 className="text-2xl text-center font-bold italic tracking-tight text-primary animate-pulse">
+                  Your location:
                 </h2>
-                <h2 className="text-tertiary text-center">
-                  Latitude: {location[0]}
+                <h2 className="text-center font-bold italic tracking-tight text-primary">
+                  Lat: {location[0]}
                 </h2>
-                <h2 className="text-tertiary text-center">
-                  Longitude: {location[1]}
+                <h2 className="text-center font-bold italic tracking-tight text-primary">
+                  Long: {location[1]}
                 </h2>
               </>
             )}

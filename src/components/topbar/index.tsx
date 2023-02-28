@@ -13,7 +13,7 @@ export const Topbar: React.FC<TopbarProps> = ({ user, setTab }) => {
   return (
     <div className="fixed top-0 left-0">
       <div className="w-screen p-4 flex justify-between items-center bg-secondary">
-        <h2 className="text-2xl font-bold italic tracking-tight text-primary animate-pulse">
+        <h2 className="text-2xl font-bold italic tracking-tight text-primary">
           tea.wtf
         </h2>
         <div className="flex gap-5">

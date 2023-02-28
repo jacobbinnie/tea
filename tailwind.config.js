@@ -16,11 +16,12 @@ module.exports = {
       sans: ['Poppins, sans-serif'],
     },
     colors: {
-      primary: '#301fed', // MAIN COLOR
+      primary: '#c3f900', // MAIN COLOR
       secondary: '#010001', // OFF-BLACK
       tertiary: '#fefffe', // OFF-WHITE
       gray: {
         100: '#323332', // BORDERS
+        200: '#a6a8ac',
       },
     },
     screens: {

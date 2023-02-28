@@ -18,7 +18,7 @@ export const NearbyPosts: React.FC<NearbyPostsProps> = ({
 
   return (
     <>
-      <h2 className="text-lg text-center font-semibold text-tertiary">
+      <h2 className="text-2xl text-center font-bold italic tracking-tight text-primary animate-pulse">
         Posts Near You
       </h2>
 
