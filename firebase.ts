@@ -13,6 +13,8 @@ import { GeoFire, GeoQuery } from 'geofire'
 import React from 'react'
 import { DbUser, UserPost } from './interfaces'
 import { generateString } from './utils/utils'
+import { getAuth } from 'firebase/auth'
+
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
