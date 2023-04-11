@@ -26,7 +26,7 @@ export default function Home() {
 
   const [tab, setTab] = useState<'home' | 'myPosts'>('home')
 
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
   const handleAddToMyPosts = (posts: UserPost[]) => {
     const newArray: PublicPost[] = []
@@ -34,7 +34,7 @@ export default function Home() {
       Object.values(posts).forEach(post => {
         const newValue = {
           ...post,
-          image: user?.user.photoURL,
+          image: authUser?.photoURL,
         }
         newArray.push(newValue)
       })
@@ -83,7 +83,7 @@ export default function Home() {
 
   const handleCreatePost = () => {
     if (location) {
-      createPost(newBody!, location, Date.now(), user!.user.uid)
+      createPost(newBody!, location, Date.now(), authUser!.uid)
     }
   }
 
@@ -102,8 +102,8 @@ export default function Home() {
   }, [location, geoFire, db])
 
   useEffect(() => {
-    if (tab === 'myPosts' && user) {
-      getUserPosts(user?.user.uid, handleAddToMyPosts)
+    if (tab === 'myPosts' && authUser) {
+      getUserPosts(authUser?.uid, handleAddToMyPosts)
     }
   }, [tab])
 
@@ -121,7 +121,7 @@ export default function Home() {
 
   return (
     <div className="flex overflow-hidden min-h-screen bg-secondary">
-      <Topbar user={user && user.user} setTab={setTab} />
+      <Topbar user={authUser && authUser} setTab={setTab} />
       <div className="w-full flex justify-center">
         <div className="flex flex-col mt-24 p-4 w-full max-w-6xl gap-5">
           {tab === 'home' ? (

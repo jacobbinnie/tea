@@ -8,10 +8,7 @@ interface MyPostsProps {
   gettingMyPosts: boolean
 }
 
-export const MyPosts: React.FC<MyPostsProps> = ({
-  myPosts,
-  gettingMyPosts,
-}) => {
+export const MyPosts: React.FC<MyPostsProps> = ({ myPosts, gettingMyPosts }) => {
   if (gettingMyPosts) {
     return <Loading loadingMessage=" " />
   }
@@ -19,9 +16,7 @@ export const MyPosts: React.FC<MyPostsProps> = ({
   if (myPosts.length > 0) {
     return (
       <>
-        <h2 className="text-lg text-center font-semibold text-tertiary">
-          My Posts
-        </h2>
+        <h2 className="text-lg text-center font-semibold text-tertiary">My Posts</h2>
         <PostContainer posts={myPosts} />
       </>
     )

@@ -9,6 +9,7 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  User,
   UserCredential,
 } from 'firebase/auth'
 import { getApps } from 'firebase/app'
@@ -17,14 +18,12 @@ import { DbUser, UserSession } from '../interfaces'
 import { useRouter } from 'next/router'
 
 interface AuthContextValues {
-  user: UserSession | null
-  dbUser: DbUser | null
+  authUser: User | null
   signInWithGoogle: () => Promise<void | null>
 }
 
 const AuthContext = createContext<AuthContextValues>({
-  user: null,
-  dbUser: null,
+  authUser: null,
   signInWithGoogle: async () => null,
 })
 
@@ -33,14 +32,16 @@ interface AuthProviderOptions {
 }
 
 export const AuthProvider = ({ children }: AuthProviderOptions) => {
-  const [user, setUser] = useState<UserSession | null>(null)
   const [dbUser, setDbUser] = useState<DbUser | null>(null)
 
   const router = useRouter()
 
+  const auth = getAuth()
+  const authUser = auth.currentUser
+
   useEffect(() => {
-    !user && router.pathname !== '/login' && router.push('./login')
-  }, [user])
+    !authUser && router.pathname !== '/login' && router.push('./login')
+  }, [authUser])
 
   const initializeFirebase = useCallback(() => {
     app
@@ -51,12 +52,8 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   if (getApps().length < 1) {
     initializeFirebase()
   }
-  const auth = getAuth()
+  
   const provider = new GoogleAuthProvider()
-
-  const redirectHome = () => {
-    router.push('./')
-  }
 
   const addUserToDatabase = async (user: UserCredential) => {
     checkUserCreated(
@@ -78,12 +75,10 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
           const user = result.user
 
           if (token && user) {
-            setUser({ token, user })
             addUserToDatabase(result)
           }
         }
-
-        redirectHome()
+        router.push('./')
       })
       .catch(error => {
         const errorCode = error.code
@@ -93,8 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   }
 
   const value = {
-    user,
-    dbUser,
+    authUser,
     signInWithGoogle,
   }
 

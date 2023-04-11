@@ -2,9 +2,9 @@ import Home from '../src/components/home'
 import { useAuth } from '../providers/authProvider'
 
 export default function HomeBuilder() {
-  const { user } = useAuth()
+  const { authUser } = useAuth()
 
-  if (user && navigator) {
+  if (authUser && navigator) {
     return <Home />
   }
 }
