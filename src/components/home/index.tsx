@@ -12,6 +12,7 @@ import { useAuth } from '../../../providers/authProvider'
 import NearbyPosts from '../nearbyPosts'
 import Loading from '../loading'
 import MyPosts from '../myPosts'
+import { onValue, ref } from 'firebase/database'
 
 export default function Home() {
   const [location, setLocation] = useState<
@@ -27,6 +28,14 @@ export default function Home() {
   const [tab, setTab] = useState<'home' | 'myPosts'>('home')
 
   const { authUser } = useAuth()
+
+  const postsRef = ref(db, 'posts/')
+
+  // onValue(postsRef, snapshot => {
+  // const data = snapshot.val()
+  // console.log("Data Updated!")
+  // console.log(data)
+  // })
 
   const handleAddToMyPosts = (posts: UserPost[]) => {
     const newArray: PublicPost[] = []
@@ -64,9 +73,11 @@ export default function Home() {
   }
 
   const handleRemoveFromNearbyPosts = (key: string) => {
-    setNearbyPosts(prevState =>
-      prevState.filter(post => post !== prevState[key]),
-    )
+    // setNearbyPosts(prevState =>
+    //   prevState.filter(post => post !== prevState[key]),
+    // )
+    // Fix this
+    TODO: console.log('Test')
   }
 
   const getNearbyPosts = useCallback(
