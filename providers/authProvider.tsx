@@ -6,8 +6,11 @@ import React, {
   useState,
 } from 'react'
 import {
+  browserSessionPersistence,
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
+  setPersistence,
   signInWithPopup,
   User,
   UserCredential,
@@ -32,16 +35,24 @@ interface AuthProviderOptions {
 }
 
 export const AuthProvider = ({ children }: AuthProviderOptions) => {
-  const [dbUser, setDbUser] = useState<DbUser | null>(null)
+  const [authUser, setAuthUser] = useState<User | null>(null)
 
   const router = useRouter()
-
   const auth = getAuth()
-  const authUser = auth.currentUser
 
   useEffect(() => {
-    !authUser && router.pathname !== '/login' && router.push('./login')
-  }, [authUser])
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        setAuthUser(user) // logged in user object
+      } else {
+        window.location.href = '/login' // redirect to login page
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
 
   const initializeFirebase = useCallback(() => {
     app
@@ -52,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   if (getApps().length < 1) {
     initializeFirebase()
   }
-  
+
   const provider = new GoogleAuthProvider()
 
   const addUserToDatabase = async (user: UserCredential) => {
@@ -61,29 +72,36 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
       user.user.displayName,
       user.user.email!,
       user.user.photoURL,
-      setDbUser,
     )
   }
 
   const signInWithGoogle = async () => {
-    signInWithPopup(auth, provider)
-      .then(result => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result)
-        if (credential) {
-          const token = credential.accessToken
-          const user = result.user
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        return signInWithPopup(auth, provider)
+          .then(result => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result)
+            if (credential) {
+              const token = credential.accessToken
+              const user = result.user
 
-          if (token && user) {
-            addUserToDatabase(result)
-          }
-        }
-        router.push('./')
+              if (token && user) {
+                addUserToDatabase(result)
+              }
+            }
+            router.push('./')
+          })
+          .catch(error => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            throw new Error(errorCode, errorMessage)
+          })
       })
       .catch(error => {
+        // Handle Errors here.
         const errorCode = error.code
         const errorMessage = error.message
-        throw new Error(errorCode, errorMessage)
       })
   }
 
