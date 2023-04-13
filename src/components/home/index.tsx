@@ -12,7 +12,6 @@ import { useAuth } from '../../../providers/authProvider'
 import NearbyPosts from '../nearbyPosts'
 import Loading from '../loading'
 import MyPosts from '../myPosts'
-import { onValue, ref } from 'firebase/database'
 
 export default function Home() {
   const [location, setLocation] = useState<
@@ -27,14 +26,14 @@ export default function Home() {
 
   const [tab, setTab] = useState<'home' | 'myPosts'>('home')
 
-  const { authUser } = useAuth()
+  const { user } = useAuth()
 
-  const postsRef = ref(db, 'posts/')
+  // const postsRef = ref(db, 'posts/')
 
   // onValue(postsRef, snapshot => {
-  // const data = snapshot.val()
-  // console.log("Data Updated!")
-  // console.log(data)
+  //   const data = snapshot.val()
+  //   console.log('Data Updated!')
+  //   console.log(data)
   // })
 
   const handleAddToMyPosts = (posts: UserPost[]) => {
@@ -43,7 +42,7 @@ export default function Home() {
       Object.values(posts).forEach(post => {
         const newValue = {
           ...post,
-          image: authUser?.photoURL,
+          image: user?.photoURL,
         }
         newArray.push(newValue)
       })
@@ -77,7 +76,7 @@ export default function Home() {
     //   prevState.filter(post => post !== prevState[key]),
     // )
     // Fix this
-    TODO: console.log('Test')
+    console.log('Test', key)
   }
 
   const getNearbyPosts = useCallback(
@@ -94,7 +93,7 @@ export default function Home() {
 
   const handleCreatePost = () => {
     if (location) {
-      createPost(newBody!, location, Date.now(), authUser!.uid)
+      createPost(newBody!, location, Date.now(), user!.uid)
     }
   }
 
@@ -113,8 +112,8 @@ export default function Home() {
   }, [location, geoFire, db])
 
   useEffect(() => {
-    if (tab === 'myPosts' && authUser) {
-      getUserPosts(authUser?.uid, handleAddToMyPosts)
+    if (tab === 'myPosts' && user) {
+      getUserPosts(user?.uid, handleAddToMyPosts)
     }
   }, [tab])
 
@@ -132,7 +131,7 @@ export default function Home() {
 
   return (
     <div className="flex overflow-hidden min-h-screen bg-secondary">
-      <Topbar user={authUser && authUser} setTab={setTab} />
+      <Topbar user={user && user} setTab={setTab} />
       <div className="w-full flex justify-center">
         <div className="flex flex-col mt-24 p-4 w-full max-w-6xl gap-5">
           {tab === 'home' ? (
