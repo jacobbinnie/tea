@@ -44,7 +44,9 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
       if (user) {
         setUser(user) // logged in user object
       } else {
-        window.location.href = '/login' // redirect to login page
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login' // redirect to login page
+        }
       }
     })
 
