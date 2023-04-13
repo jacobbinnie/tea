@@ -20,12 +20,12 @@ import { app, checkUserCreated } from '../firebase'
 import { useRouter } from 'next/router'
 
 interface AuthContextValues {
-  authUser: User | null
+  user: User | null
   signInWithGoogle: () => Promise<void | null>
 }
 
 const AuthContext = createContext<AuthContextValues>({
-  authUser: null,
+  user: null,
   signInWithGoogle: async () => null,
 })
 
@@ -34,7 +34,7 @@ interface AuthProviderOptions {
 }
 
 export const AuthProvider = ({ children }: AuthProviderOptions) => {
-  const [authUser, setAuthUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null)
 
   const router = useRouter()
   const auth = getAuth()
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
-        setAuthUser(user) // logged in user object
+        setUser(user) // logged in user object
       } else {
         window.location.href = '/login' // redirect to login page
       }
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   }
 
   const value = {
-    authUser,
+    user,
     signInWithGoogle,
   }
 
