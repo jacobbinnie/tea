@@ -17,7 +17,6 @@ import {
 } from 'firebase/auth'
 import { getApps } from 'firebase/app'
 import { app, checkUserCreated } from '../firebase'
-import { DbUser, UserSession } from '../interfaces'
 import { useRouter } from 'next/router'
 
 interface AuthContextValues {
@@ -100,8 +99,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
       })
       .catch(error => {
         // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
+        throw new Error(error)
       })
   }
 

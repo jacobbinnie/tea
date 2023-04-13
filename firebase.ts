@@ -8,14 +8,10 @@ import {
   get,
   orderByChild,
   equalTo,
-  onDisconnect,
-  onValue,
 } from 'firebase/database'
 import { GeoFire, GeoQuery } from 'geofire'
-import React from 'react'
-import { DbUser, UserPost } from './interfaces'
+import { UserPost } from './interfaces'
 import { generateString } from './utils/utils'
-import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -88,7 +84,9 @@ export const getPublicPost = async (
 export function getNearbyPostIds(
   center: [number, number],
   radius: number,
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
   let geoQuery: GeoQuery | undefined
