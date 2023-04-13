@@ -10,8 +10,7 @@ import {
   equalTo,
 } from 'firebase/database'
 import { GeoFire, GeoQuery } from 'geofire'
-import React from 'react'
-import { DbUser, UserPost } from './interfaces'
+import { UserPost } from './interfaces'
 import { generateString } from './utils/utils'
 
 const firebaseConfig = {
@@ -85,7 +84,7 @@ export const getPublicPost = async (
 export function getNearbyPostIds(
   center: [number, number],
   radius: number,
-  // eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
+  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleAddToNearbyPosts: (post: UserPost, image: string) => void,
   // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleRemoveFromNearbyPosts: (key: string) => void,
@@ -139,7 +138,6 @@ export function checkUserCreated(
   name: string | null,
   email: string,
   image: string | null,
-  callbackFunc: React.Dispatch<React.SetStateAction<DbUser | null>>,
 ) {
   const que = query(ref(db, 'users/' + uuid))
   get(que).then(snapshot => {
@@ -147,7 +145,6 @@ export function checkUserCreated(
     if (!user) {
       createUser(uuid, name, email, image)
     }
-    callbackFunc(user)
   })
 }
 

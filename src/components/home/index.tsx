@@ -28,13 +28,21 @@ export default function Home() {
 
   const { user } = useAuth()
 
+  // const postsRef = ref(db, 'posts/')
+
+  // onValue(postsRef, snapshot => {
+  //   const data = snapshot.val()
+  //   console.log('Data Updated!')
+  //   console.log(data)
+  // })
+
   const handleAddToMyPosts = (posts: UserPost[]) => {
     const newArray: PublicPost[] = []
     if (posts) {
       Object.values(posts).forEach(post => {
         const newValue = {
           ...post,
-          image: user?.user.photoURL,
+          image: user?.photoURL,
         }
         newArray.push(newValue)
       })
@@ -64,9 +72,11 @@ export default function Home() {
   }
 
   const handleRemoveFromNearbyPosts = (key: string) => {
-    setNearbyPosts(prevState =>
-      prevState.filter(post => post !== prevState[key]),
-    )
+    // setNearbyPosts(prevState =>
+    //   prevState.filter(post => post !== prevState[key]),
+    // )
+    // Fix this
+    console.log('Test', key)
   }
 
   const getNearbyPosts = useCallback(
@@ -83,7 +93,7 @@ export default function Home() {
 
   const handleCreatePost = () => {
     if (location) {
-      createPost(newBody!, location, Date.now(), user!.user.uid)
+      createPost(newBody!, location, Date.now(), user!.uid)
     }
   }
 
@@ -103,7 +113,7 @@ export default function Home() {
 
   useEffect(() => {
     if (tab === 'myPosts' && user) {
-      getUserPosts(user?.user.uid, handleAddToMyPosts)
+      getUserPosts(user?.uid, handleAddToMyPosts)
     }
   }, [tab])
 
@@ -121,7 +131,7 @@ export default function Home() {
 
   return (
     <div className="flex overflow-hidden min-h-screen bg-secondary">
-      <Topbar user={user && user.user} setTab={setTab} />
+      <Topbar user={user && user} setTab={setTab} />
       <div className="w-full flex justify-center">
         <div className="flex flex-col mt-24 p-4 w-full max-w-6xl gap-5">
           {tab === 'home' ? (
