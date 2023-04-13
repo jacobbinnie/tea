@@ -1,17 +1,100 @@
 {
   "root": true,
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": { "project": ["./tsconfig.json"] },
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "@typescript-eslint/strict-boolean-expressions": [
-      2,
-      {
-        "allowString": false,
-        "allowNumber": false
-      }
-    ]
+  "plugins": ["prettier", "unused-imports", "react-hooks"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@next/next/recommended"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
-  "ignorePatterns": ["src/**/*.test.ts", "src/frontend/generated/*"]
+  "globals": {
+    "JSX": true
+  },
+  "rules": {
+    // Code Quality
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "dot-notation": "error",
+    "eqeqeq": "error",
+    "prefer-const": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "arrowParens": "avoid",
+        "bracketSpacing": true,
+        "packageManager": "yarn",
+        "singleQuote": true,
+        "semi": false,
+        "tabWidth": 2,
+        "spaceBeforeFunctionParen": false,
+        "trailingComma": "all",
+        "useTabs": false
+      }
+    ],
+    // Style
+    "max-len": [
+      "error",
+      {
+        "code": 120,
+        "comments": 150
+      }
+    ],
+    "no-duplicate-imports": "error",
+    "switch-colon-spacing": "error",
+    "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+    "sort-vars": ["error", { "ignoreCase": true }],
+
+    // Functions
+    "func-call-spacing": ["error", "never"],
+    // Objects
+    "key-spacing": ["error", { "mode": "strict" }],
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    //React
+    "react-hooks/rules-of-hooks": "error",
+    "react/forbid-prop-types": ["off"],
+    "react/jsx-boolean-value": ["warn"],
+    "react/jsx-filename-extension": ["off"],
+    "react/jsx-max-props-per-line": ["off"],
+    "react/no-array-index-key": ["off"],
+    "react/no-deprecated": ["warn"],
+    "react/no-find-dom-node": ["warn"],
+    "react/no-string-refs": ["warn"],
+    "react/no-unescaped-entities": ["warn"],
+    "react/no-unused-prop-types": ["off"],
+    "react/prefer-es6-class": ["off"],
+    "react/prefer-stateless-function": ["off"],
+    "react/react-in-jsx-scope": ["off"],
+    "react/require-default-props": ["off"]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "commonjs": true,
+    "es6": true
+  }
 }
