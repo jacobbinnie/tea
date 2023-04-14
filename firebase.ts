@@ -60,7 +60,6 @@ export function removeGeofireKey(key: string) {
 
 const addUserImage = async (
   post: UserPost,
-  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleAddToNearbyPosts: (post: UserPost, image: string) => void,
 ) => {
   const que = query(ref(db, 'users/' + post.user + '/image'))
@@ -72,7 +71,6 @@ const addUserImage = async (
 // Gets Single Post
 export const getPublicPost = async (
   postId: string,
-  // eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
   handleAddToNearbyPosts: (post: UserPost, image: string) => void,
 ) => {
   const que = query(ref(db, 'posts/' + postId))
@@ -84,9 +82,7 @@ export const getPublicPost = async (
 export function getNearbyPostIds(
   center: [number, number],
   radius: number,
-  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleAddToNearbyPosts: (post: UserPost, image: string) => void,
-  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
   let geoQuery: GeoQuery | undefined
