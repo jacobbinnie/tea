@@ -1,8 +1,6 @@
 import { User } from 'firebase/auth'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction } from 'react'
-import HomeIcon from '../../../assets/icons/home.svg'
-import MyPosts from '../../../assets/icons/server.svg'
 
 interface TopbarProps {
   user: User | null
@@ -21,13 +19,13 @@ export const Topbar: React.FC<TopbarProps> = ({ user, setTab }) => {
             onClick={() => setTab('home')}
             className="flex text-gray-100 text-sm cursor-pointer hover:text-tertiary transition-all duration-300"
           >
-            <HomeIcon />
+            <div>Home</div>
           </div>
           <div
             onClick={() => setTab('myPosts')}
             className="flex text-gray-100 text-sm cursor-pointer hover:text-tertiary transition-all duration-300"
           >
-            <MyPosts />
+            <div>My Posts</div>
           </div>
           {user && user.photoURL && (
             <Image

@@ -133,7 +133,7 @@ export default function Home() {
     <div className="flex overflow-hidden min-h-screen bg-secondary">
       <Topbar user={user && user} setTab={setTab} />
       <div className="w-full flex justify-center">
-        <div className="flex flex-col mt-24 p-4 w-full max-w-6xl gap-5">
+        <div className="flex flex-col mt-24 w-full max-w-6xl gap-5">
           {tab === 'home' ? (
             <NearbyPosts
               nearbyPosts={nearbyPosts}
@@ -160,14 +160,12 @@ export default function Home() {
           </div>
           <input
             id="message"
-            // eslint-disable-next-line max-len
             className="mt-4 text-tertiary bg-secondary font-regular rounded-lg h-44 px-10 py-3 text-center mr-2 shadow-xl border-gray-100 border-[1px] hover:border-tertiary transition-all duration-300"
             placeholder="Enter post body..."
             onChange={e => setNewBody(e.target.value)}
           />
           <button
             type="submit"
-            // eslint-disable-next-line max-len
             className="mt-4 text-tertiary font-medium rounded-lg px-10 py-3 text-center mr-2 shadow-xl border-gray-100 border-[1px] hover:border-tertiary transition-all duration-300"
             disabled={!newBody ? true : false}
             onClick={e => {

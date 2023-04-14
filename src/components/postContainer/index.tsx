@@ -1,5 +1,6 @@
 import React from 'react'
 import { PublicPost } from '../../../interfaces'
+import Post from '../post'
 
 interface PostContainerProps {
   posts: PublicPost[] | undefined
@@ -7,18 +8,9 @@ interface PostContainerProps {
 
 export const PostContainer: React.FC<PostContainerProps> = ({ posts }) => {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-center w-full gap-2 bg-backdrop">
       {posts?.map(post => (
-        <div key={post.body} className="w-full">
-          <div className="flex flex-col items-center justify-center w-full">
-            <div className="w-full">
-              <h2 className="text-lg text-center font-semibold text-tertiary">
-                {post.body}
-              </h2>
-              <p className="text-sm text-center text-tertiary">{post.user}</p>
-            </div>
-          </div>
-        </div>
+        <Post post={post} />
       ))}
     </div>
   )

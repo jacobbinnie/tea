@@ -14,9 +14,9 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.8",
-    "@heroicons/react": "^2.0.14",
-    "@next/font": "13.1.1",
+    "@heroicons/react": "^2.0.17",
     "@next/eslint-plugin-next": "^13.0.3",
+    "@next/font": "13.1.1",
     "@svgr/webpack": "^6.5.1",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
