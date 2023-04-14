@@ -24,7 +24,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
 
-        <p className="text-lg">
+        <p className="text-lg text-tertiary font-medium">
           Where is the best place to get italian? We are from the states and
           would love recommendations.
         </p>
@@ -35,7 +35,9 @@ export const Post: React.FC<PostProps> = ({ post }) => {
             <HeartIcon className="w-3 text-gray-100" />
             <p className="text-xs text-gray-100">73</p>
           </div>
-          <div className="text-xs bg-primary py-1 px-2 rounded">Comment</div>
+          <div className="text-xs bg-primary py-1 px-2 rounded text-tertiary">
+            Comment
+          </div>
         </div>
       </div>
     </div>
