@@ -25,8 +25,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
         </div>
 
         <p className="text-lg text-tertiary font-medium">
-          Where is the best place to get italian? We are from the states and
-          would love recommendations.
+          {post.body}
         </p>
 
         <div className="flex w-full justify-between items-center">
