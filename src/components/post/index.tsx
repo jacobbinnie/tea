@@ -1,8 +1,9 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { PublicPost } from '../../../interfaces'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { HeartIcon } from '@heroicons/react/24/solid'
+import { useSincePosted } from 'src/utils'
 
 interface PostProps {
   post: PublicPost
@@ -13,7 +14,9 @@ export const Post: React.FC<PostProps> = ({ post }) => {
     <div className=" bg-secondary items-start px-4 py-6 min-w-full break-inside-avoid transition-all duration-500">
       <div className="flex flex-col gap-5">
         <div className="flex w-full justify-between items-center">
-          <p className="text-xs text-gray-100">2 MINS AGO</p>
+          <p className="text-xs text-gray-100">
+            {useSincePosted(post.timestamp)}
+          </p>
           <div className="flex gap-2">
             <div className="bg-backdrop px-3 rounded">
               <ChevronUpIcon className="w-5 text-tertiary" />
@@ -24,9 +27,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
 
-        <p className="text-lg text-tertiary font-medium">
-          {post.body}
-        </p>
+        <p className="text-lg text-tertiary font-medium">{post.body}</p>
 
         <div className="flex w-full justify-between items-center">
           <div className="flex gap-2">
