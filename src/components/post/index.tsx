@@ -31,9 +31,9 @@ export const Post: React.FC<PostProps> = ({ post }) => {
 
         <div className="flex w-full justify-between items-center">
           <div className="flex gap-2">
-            <p className="text-xs text-gray-100">Jacob</p>
+            <p className="text-xs text-gray-100">{post.user.name}</p>
             <HeartIcon className="w-3 text-gray-100" />
-            <p className="text-xs text-gray-100">73</p>
+            <p className="text-xs text-gray-100">{post.user.karma}</p>
           </div>
           <div className="text-xs bg-primary py-1 px-2 rounded text-tertiary">
             Comment
