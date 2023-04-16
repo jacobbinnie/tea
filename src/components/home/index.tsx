@@ -7,7 +7,7 @@ import {
   getNearbyPostIds,
   getUserPosts,
 } from '../../../firebase'
-import { PublicPost, UserPost } from '../../../interfaces'
+import { AppUser, PublicPost, UserPost } from '../../../interfaces'
 import { useAuth } from '../../../providers/authProvider'
 import NearbyPosts from '../nearbyPosts'
 import Loading from '../loading'
@@ -51,23 +51,30 @@ export default function Home() {
     }
   }
 
-  const handleAddToNearbyPosts = (post: UserPost, image: string) => {
+  const handleAddToNearbyPosts = (
+    postId: string,
+    post: UserPost,
+    user: AppUser,
+  ) => {
     const nearbyPost = {
+      postId,
       body: post.body,
       timestamp: post.timestamp,
-      user: post.user,
-      image,
+      user: user,
     }
+
     setNearbyPosts(prevState => {
       const alreadyExists = prevState.some(
-        prevPost =>
-          prevPost.body === nearbyPost.body &&
-          prevPost.timestamp === nearbyPost.timestamp &&
-          prevPost.user === nearbyPost.user &&
-          prevPost.image === nearbyPost.image,
+        prevPost => prevPost.postId === postId,
       )
-      return alreadyExists ? prevState : [...prevState, nearbyPost]
+
+      if (alreadyExists) {
+        return prevState
+      } else {
+        return [...prevState, nearbyPost]
+      }
     })
+
     setGettingNearbyPosts(false)
   }
 
@@ -93,7 +100,13 @@ export default function Home() {
 
   const handleCreatePost = () => {
     if (location) {
-      createPost(newBody!, location, Date.now(), user!.uid)
+      createPost(
+        newBody!,
+        location,
+        Date.now(),
+        user!.uid,
+        handleAddToNearbyPosts,
+      )
     }
   }
 
@@ -133,7 +146,7 @@ export default function Home() {
     <div className="flex overflow-hidden min-h-screen bg-secondary">
       <Topbar user={user && user} setTab={setTab} />
       <div className="w-full flex justify-center">
-        <div className="flex flex-col mt-24 w-full max-w-6xl gap-5">
+        <div className="flex flex-col mt-24 w-full max-w-xl gap-5">
           {tab === 'home' ? (
             <NearbyPosts
               nearbyPosts={nearbyPosts}
@@ -146,13 +159,13 @@ export default function Home() {
           <div>
             {location && (
               <>
-                <h2 className="text-2xl text-center font-bold italic tracking-tight text-primary animate-pulse">
+                <h2 className="text-center font-bold text-primary">
                   Your location:
                 </h2>
-                <h2 className="text-center font-bold italic tracking-tight text-primary">
+                <h2 className="text-center font-bold text-primary">
                   Lat: {location[0]}
                 </h2>
-                <h2 className="text-center font-bold italic tracking-tight text-primary">
+                <h2 className="text-center font-bold text-primary">
                   Long: {location[1]}
                 </h2>
               </>

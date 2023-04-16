@@ -9,18 +9,19 @@ export interface Location {
   location: [latitude: number, longitude: number]
 }
 
+export interface AppUser {
+  image: string | null
+  name: string | null
+  karma: number
+}
+
 export interface UserPost {
+  postId: string
   body: string
   timestamp: number
-  user: string
+  user: AppUser
 }
 
 export interface PublicPost extends UserPost {
   image?: string | null | undefined
-}
-
-export interface DbUser {
-  email: string
-  image: string
-  name: string
 }

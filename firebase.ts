@@ -8,9 +8,10 @@ import {
   get,
   orderByChild,
   equalTo,
+  orderByKey,
 } from 'firebase/database'
 import { GeoFire, GeoQuery } from 'geofire'
-import { UserPost } from './interfaces'
+import { AppUser, UserPost } from './interfaces'
 import { generateString } from './utils/utils'
 
 const firebaseConfig = {
@@ -33,19 +34,7 @@ const firebaseRef = ref(db, 'geofireKeys/')
 // Create a GeoFire index
 export const geoFire = new GeoFire(firebaseRef)
 
-export function setGeofireKey(
-  key: string,
-  location: [latitude: number, longitude: number],
-) {
-  geoFire.set(key, location).then(
-    function () {
-      console.log('Provided key has been added to GeoFire')
-    },
-    function (error) {
-      console.log('Error: ' + error)
-    },
-  )
-}
+let geoQuery: GeoQuery | undefined
 
 export function removeGeofireKey(key: string) {
   geoFire.remove(key).then(
@@ -58,34 +47,48 @@ export function removeGeofireKey(key: string) {
   )
 }
 
-const addUserImage = async (
+const addUserInfo = async (
+  postId: string,
   post: UserPost,
-  handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+  handleAddToNearbyPosts: (
+    postId: string,
+    post: UserPost,
+    user: AppUser,
+  ) => void,
 ) => {
-  const que = query(ref(db, 'users/' + post.user + '/image'))
-  get(que).then(snapshot => {
-    handleAddToNearbyPosts(post, snapshot.val())
-  })
+  if (post && post.user) {
+    const que = query(ref(db, 'users/' + post.user))
+    get(que).then(snapshot => {
+      handleAddToNearbyPosts(postId, post, snapshot.val())
+    })
+  }
 }
 
 // Gets Single Post
 export const getPublicPost = async (
   postId: string,
-  handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+  handleAddToNearbyPosts: (
+    postId: string,
+    post: UserPost,
+    user: AppUser,
+  ) => void,
 ) => {
   const que = query(ref(db, 'posts/' + postId))
   get(que).then(snapshot => {
-    addUserImage(snapshot.val(), handleAddToNearbyPosts)
+    addUserInfo(postId, snapshot.val(), handleAddToNearbyPosts)
   })
 }
 
 export function getNearbyPostIds(
   center: [number, number],
   radius: number,
-  handleAddToNearbyPosts: (post: UserPost, image: string) => void,
+  handleAddToNearbyPosts: (
+    postId: string,
+    post: UserPost,
+    user: AppUser,
+  ) => void,
   handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
-  let geoQuery: GeoQuery | undefined
   const processedIds: string[] = []
 
   if (geoQuery !== undefined) {
@@ -112,17 +115,37 @@ export function getNearbyPostIds(
   })
 }
 
+export function setGeofireKey(
+  key: string,
+  location: [latitude: number, longitude: number],
+  handleAddToNearbyPosts: (
+    postId: string,
+    post: UserPost,
+    user: AppUser,
+  ) => void,
+) {
+  geoQuery?.cancel()
+  geoFire.set(key, location).then(
+    function () {
+      console.log('Provided key has been added to GeoFire')
+      getNearbyPostIds(location, 3, handleAddToNearbyPosts, () => {})
+    },
+    function (error) {
+      console.log('Error: ' + error)
+    },
+  )
+}
+
 // Creates User in Realtime DB
 export function createUser(
   uuid: string,
   name: string | null,
-  email: string,
   image: string | null,
 ) {
   set(ref(db, 'users/' + uuid), {
     name,
-    email,
     image,
+    karma: 0,
   })
     .then(() => alert('User created successfully'))
     .catch(err => alert(err.message))
@@ -132,14 +155,21 @@ export function createUser(
 export function checkUserCreated(
   uuid: string,
   name: string | null,
-  email: string,
   image: string | null,
+  handleUpdateAppUser: (
+    image: string | null,
+    name: string | null,
+    karma: number,
+  ) => void,
 ) {
   const que = query(ref(db, 'users/' + uuid))
   get(que).then(snapshot => {
     const user = snapshot.val()
     if (!user) {
-      createUser(uuid, name, email, image)
+      createUser(uuid, name, image)
+      handleUpdateAppUser(image, name, 0)
+    } else {
+      handleUpdateAppUser(user.image, user.name, user.karma)
     }
   })
 }
@@ -150,6 +180,11 @@ export function createPost(
   location: [latitude: number, longitude: number],
   timestamp: number,
   uid: string,
+  handleAddToNearbyPosts: (
+    postId: string,
+    post: UserPost,
+    user: AppUser,
+  ) => void,
 ) {
   const generatedString = Date.now() + generateString(5)
   set(ref(db, 'posts/' + generatedString), {
@@ -158,7 +193,7 @@ export function createPost(
     user: uid,
   })
     .then(() => {
-      setGeofireKey(generatedString, location)
+      setGeofireKey(generatedString, location, handleAddToNearbyPosts)
     })
     .catch(err => alert(err.message))
 }
