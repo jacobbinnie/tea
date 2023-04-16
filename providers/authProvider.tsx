@@ -18,14 +18,17 @@ import {
 import { getApps } from 'firebase/app'
 import { app, checkUserCreated } from '../firebase'
 import { useRouter } from 'next/router'
+import { AppUser } from 'interfaces'
 
 interface AuthContextValues {
   user: User | null
+  appUser: AppUser | null
   signInWithGoogle: () => Promise<void | null>
 }
 
 const AuthContext = createContext<AuthContextValues>({
   user: null,
+  appUser: null,
   signInWithGoogle: async () => null,
 })
 
@@ -35,13 +38,32 @@ interface AuthProviderOptions {
 
 export const AuthProvider = ({ children }: AuthProviderOptions) => {
   const [user, setUser] = useState<User | null>(null)
+  const [appUser, setAppUser] = useState<AppUser | null>(null)
 
   const router = useRouter()
   const auth = getAuth()
 
+  const handleUpdateAppUser = (
+    image: string | null,
+    name: string | null,
+    karma: number,
+  ) => {
+    setAppUser({
+      image,
+      name,
+      karma,
+    })
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
+        checkUserCreated(
+          user.uid,
+          user.displayName,
+          user.photoURL,
+          handleUpdateAppUser,
+        )
         setUser(user) // logged in user object
       } else {
         if (window.location.pathname !== '/login') {
@@ -71,8 +93,8 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
     checkUserCreated(
       user.user.uid,
       user.user.displayName,
-      user.user.email!,
       user.user.photoURL,
+      handleUpdateAppUser,
     )
   }
 
@@ -107,6 +129,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
 
   const value = {
     user,
+    appUser,
     signInWithGoogle,
   }
 

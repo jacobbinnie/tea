@@ -10,7 +10,7 @@ export const PostContainer: React.FC<PostContainerProps> = ({ posts }) => {
   return (
     <div className="flex flex-col items-center justify-center w-full gap-2 bg-backdrop">
       {posts?.map(post => (
-        <Post post={post} />
+        <Post key={post.timestamp} post={post} />
       ))}
     </div>
   )
