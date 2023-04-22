@@ -152,7 +152,7 @@ export default function Home() {
         toggleCreatePostWindow={toggleCreatePostWindow}
       />
       <div className="w-full flex justify-center">
-        <div className="flex flex-col mt-24 w-full max-w-xl gap-5">
+        <div className="flex flex-col mt-24 w-full max-w-xl gap-5 pb-24">
           {tab === 'home' ? (
             <NearbyPosts
               nearbyPosts={nearbyPosts}
@@ -161,22 +161,6 @@ export default function Home() {
           ) : (
             <MyPosts myPosts={myPosts} gettingMyPosts={gettingMyPosts} />
           )}
-
-          <div>
-            {location && (
-              <>
-                <h2 className="text-center font-bold text-primary">
-                  Your location:
-                </h2>
-                <h2 className="text-center font-bold text-primary">
-                  Lat: {location[0]}
-                </h2>
-                <h2 className="text-center font-bold text-primary">
-                  Long: {location[1]}
-                </h2>
-              </>
-            )}
-          </div>
         </div>
       </div>
       {appUser && (
