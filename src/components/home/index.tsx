@@ -12,6 +12,7 @@ import { useAuth } from '../../../providers/authProvider'
 import NearbyPosts from '../nearbyPosts'
 import Loading from '../loading'
 import MyPosts from '../myPosts'
+import CreatePost from '../createPost'
 
 export default function Home() {
   const [location, setLocation] = useState<
@@ -25,16 +26,17 @@ export default function Home() {
   const [gettingMyPosts, setGettingMyPosts] = useState(true)
 
   const [tab, setTab] = useState<'home' | 'myPosts'>('home')
+  const [createPostWindow, setCreatePostWindow] = useState(false)
 
-  const { user } = useAuth()
+  const { appUser, user } = useAuth()
 
-  // const postsRef = ref(db, 'posts/')
+  const handleUpdateNewBody = (newBody: string) => {
+    if (newBody.length <= 100) {
+      setNewBody(newBody)
+    }
+  }
 
-  // onValue(postsRef, snapshot => {
-  //   const data = snapshot.val()
-  //   console.log('Data Updated!')
-  //   console.log(data)
-  // })
+  const toggleCreatePostWindow = () => setCreatePostWindow(!createPostWindow)
 
   const handleAddToMyPosts = (posts: UserPost[]) => {
     const newArray: PublicPost[] = []
@@ -42,7 +44,7 @@ export default function Home() {
       Object.values(posts).forEach(post => {
         const newValue = {
           ...post,
-          image: user?.photoURL,
+          image: appUser?.image,
         }
         newArray.push(newValue)
       })
@@ -144,7 +146,11 @@ export default function Home() {
 
   return (
     <div className="flex overflow-hidden min-h-screen bg-secondary">
-      <Topbar user={user && user} setTab={setTab} />
+      <Topbar
+        user={appUser}
+        setTab={setTab}
+        toggleCreatePostWindow={toggleCreatePostWindow}
+      />
       <div className="w-full flex justify-center">
         <div className="flex flex-col mt-24 w-full max-w-xl gap-5">
           {tab === 'home' ? (
@@ -171,25 +177,18 @@ export default function Home() {
               </>
             )}
           </div>
-          <input
-            id="message"
-            className="mt-4 text-tertiary bg-secondary font-regular rounded-lg h-44 px-10 py-3 text-center mr-2 shadow-xl border-gray-100 border-[1px] hover:border-tertiary transition-all duration-300"
-            placeholder="Enter post body..."
-            onChange={e => setNewBody(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="mt-4 text-tertiary font-medium rounded-lg px-10 py-3 text-center mr-2 shadow-xl border-gray-100 border-[1px] hover:border-tertiary transition-all duration-300"
-            disabled={!newBody ? true : false}
-            onClick={e => {
-              e.preventDefault()
-              handleCreatePost()
-            }}
-          >
-            Submit
-          </button>
         </div>
       </div>
+      {appUser && (
+        <CreatePost
+          handleUpdateNewBody={handleUpdateNewBody}
+          newBody={newBody}
+          handleCreatePost={handleCreatePost}
+          user={appUser}
+          createPostWindow={createPostWindow}
+          toggleCreatePostWindow={toggleCreatePostWindow}
+        />
+      )}
     </div>
   )
 }
