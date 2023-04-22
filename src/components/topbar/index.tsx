@@ -17,23 +17,23 @@ export const Topbar: React.FC<TopbarProps> = ({
 }) => {
   return (
     <div className="fixed top-0 left-0">
-      <div className="w-screen py-3 px-6 flex justify-between items-center bg-secondary">
+      <div className="w-screen p-4 flex justify-between items-center bg-secondary">
         <h2
           onClick={() => setTab('home')}
-          className="text-2xl cursor-pointer font-bold italic tracking-tight text-primary"
+          className="text-2xl font-bold italic cursor-pointer tracking-tight text-primary"
         >
           tea.wtf
         </h2>
 
         <PlusCircleIcon
           onClick={() => toggleCreatePostWindow()}
-          className="text-tertiary w-10 fixed bottom-6 right-6 transition-all shadow-xl"
+          className="text-tertiary w-10 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer"
         />
 
         <div className="flex gap-5">
           <div
             onClick={() => setTab('myPosts')}
-            className="flex items-center gap-2 text-gray-100 text-sm cursor-pointer hover:text-tertiary transition-all duration-300"
+            className="flex items-center gap-2 cursor-pointer text-gray-100 text-sm"
           >
             My Posts
           </div>
