@@ -69,7 +69,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             name="paragraph_text"
             cols={50}
             rows={10}
-            className="transition-all text-tertiary text-sm h-60 bg-primary border-[1px] p-4 rounded-lg"
+            className="transition-all text-tertiary font-medium text-md h-60 bg-primary border-[1px] p-4 rounded-lg"
             onChange={e => handleUpdateNewBody(e.target.value)}
             placeholder={"What's on your mind?"}
             value={newBody}
