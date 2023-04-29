@@ -84,7 +84,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           <button
             type="submit"
             className="text-quarterly bg-primary disabled:opacity-10 disabled:cursor-default font-semibold text-lg py-2 w-1/2 px-4 rounded-xl cursor-pointer transition-all"
-            disabled={!newBody ? true : false}
+            disabled={!newBody ? true : newBody.length > 10 && false}
             onClick={e => {
               e.preventDefault()
               handleCreatePost()
