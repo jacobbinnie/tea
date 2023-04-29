@@ -19,6 +19,7 @@ module.exports = {
       primary: '#5745b7', // MAIN COLOR
       secondary: '#101014', // OFF-BLACK
       tertiary: '#fefffe', // OFF-WHITE,
+      quarterly: '#dcdedc', // OFF-WHITE,
       black: '#000000',
       backdrop: '#16151c',
       gray: {
