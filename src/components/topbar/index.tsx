@@ -27,7 +27,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 
         <PlusCircleIcon
           onClick={() => toggleCreatePostWindow()}
-          className="text-quarterly w-10 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer"
+          className="text-quarterly w-14 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer z-10"
         />
 
         <div className="flex gap-5">
@@ -49,6 +49,9 @@ export const Topbar: React.FC<TopbarProps> = ({
         </div>
       </div>
       <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
+      {/* top gradient */}
+      <div className="w-full h-60 bg-gradient-to-t from-secondary to-transparent fixed bottom-0 transition-all duration-500" />
+      {/* bottom gradient */}
     </div>
   )
 }
