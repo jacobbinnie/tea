@@ -41,7 +41,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
     <div className={componentClasses}>
       <div className="flex flex-col gap-5 w-full max-w-xl px-4">
         <div className="flex w-full justify-between items-center">
-          <p className="text-xl font-semibold text-quarterly">Create post</p>
+          <p className="text-xl font-semibold text-tertiary">Create post</p>
           <XCircleIcon
             onClick={() => toggleCreatePostWindow()}
             className="text-quarterly w-10 cursor-pointer"
