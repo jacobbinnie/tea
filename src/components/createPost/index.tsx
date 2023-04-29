@@ -32,7 +32,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
   )
 
   const countClasses = clsx(
-    newBody && newBody.length > 94
+    newBody && newBody.length > 89
       ? 'text-sm font-medium text-[red]'
       : 'text-sm font-medium text-quarterly',
   )
