@@ -20,22 +20,22 @@ export const Topbar: React.FC<TopbarProps> = ({
       <div className="w-screen p-4 flex justify-between items-center bg-secondary">
         <h2
           onClick={() => setTab('home')}
-          className="text-2xl font-bold italic cursor-pointer tracking-tight text-primary"
+          className="text-2xl font-extrabold italic cursor-pointer tracking-tight text-primary"
         >
           tea.wtf
         </h2>
 
         <PlusCircleIcon
           onClick={() => toggleCreatePostWindow()}
-          className="text-tertiary w-10 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer"
+          className="text-quarterly w-10 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer"
         />
 
         <div className="flex gap-5">
           <div
             onClick={() => setTab('myPosts')}
-            className="flex items-center gap-2 cursor-pointer text-gray-100 text-sm"
+            className="flex items-center gap-2 cursor-pointer font-semibold text-quarterly text-sm"
           >
-            My Posts
+            my posts
           </div>
           {user && user.image && (
             <Image
@@ -48,7 +48,7 @@ export const Topbar: React.FC<TopbarProps> = ({
           )}
         </div>
       </div>
-      <div className="bg-gradient-to-b from-secondary to-transparent h-10"></div>
+      <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
     </div>
   )
 }

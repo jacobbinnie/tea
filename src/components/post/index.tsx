@@ -14,7 +14,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
     <div className=" bg-secondary items-start px-4 py-6 min-w-full break-inside-avoid transition-all duration-500">
       <div className="flex flex-col gap-5">
         <div className="flex w-full justify-between items-center">
-          <p className="text-xs text-gray-100">
+          <p className="text-sm text-quarterly">
             {useSincePosted(post.timestamp)}
           </p>
           <div className="flex gap-2">
@@ -27,15 +27,15 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
 
-        <p className="text-lg text-tertiary font-medium">{post.body}</p>
+        <p className="text-xl text-tertiary font-semibold">{post.body}</p>
 
         <div className="flex w-full justify-between items-center">
           <div className="flex gap-2">
-            <p className="text-xs text-gray-100">{post.user.name}</p>
-            <HeartIcon className="w-3 text-gray-100" />
-            <p className="text-xs text-gray-100">{post.user.karma}</p>
+            <p className="text-sm text-quarterly">{post.user.name}</p>
+            <HeartIcon className="w-3 text-quarterly" />
+            <p className="text-sm text-quarterly">{post.user.karma}</p>
           </div>
-          <div className="text-xs bg-primary py-1 px-2 rounded text-tertiary">
+          <div className="text-sm font-semibold bg-primary py-2 px-3 rounded-lg text-quarterly">
             Comment
           </div>
         </div>

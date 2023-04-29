@@ -13,6 +13,7 @@ import NearbyPosts from '../nearbyPosts'
 import Loading from '../loading'
 import MyPosts from '../myPosts'
 import CreatePost from '../createPost'
+import clsx from 'clsx'
 
 export default function Home() {
   const [location, setLocation] = useState<
@@ -36,7 +37,7 @@ export default function Home() {
     }
   }
 
-  const toggleCreatePostWindow = () => setCreatePostWindow(!createPostWindow)
+  const toggleCreatePostWindow = () => setCreatePostWindow(prev => !prev)
 
   const handleAddToMyPosts = (posts: UserPost[]) => {
     const newArray: PublicPost[] = []
@@ -136,6 +137,12 @@ export default function Home() {
     updateLocation()
   }, [])
 
+  const postsClasses = clsx(
+    createPostWindow
+      ? 'w-full blur-lg flex justify-center transition-all duration-500'
+      : 'w-full flex justify-center transition-all duration-500',
+  )
+
   if (!location) {
     return (
       <div className="h-screen w-screen flex justify-center items-center">
@@ -151,7 +158,7 @@ export default function Home() {
         setTab={setTab}
         toggleCreatePostWindow={toggleCreatePostWindow}
       />
-      <div className="w-full flex justify-center">
+      <div className={postsClasses}>
         <div className="flex flex-col mt-24 w-full max-w-xl gap-5 pb-24">
           {tab === 'home' ? (
             <NearbyPosts
