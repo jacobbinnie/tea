@@ -50,7 +50,7 @@ export const Topbar: React.FC<TopbarProps> = ({
       </div>
       <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
       {/* top gradient */}
-      <div className="w-full h-60 bg-gradient-to-t from-secondary to-transparent fixed bottom-0 transition-all duration-500" />
+      <div className="w-full h-32 bg-gradient-to-t from-secondary to-transparent fixed bottom-0 transition-all duration-500" />
       {/* bottom gradient */}
     </div>
   )
