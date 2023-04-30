@@ -18,11 +18,11 @@ export const Post: React.FC<PostProps> = ({ post }) => {
             {useSincePosted(post.timestamp)}
           </p>
           <div className="flex gap-2">
-            <div className="bg-backdrop px-3 rounded">
-              <ChevronUpIcon className="w-5 text-tertiary" />
+            <div className="px-3 rounded">
+              <ChevronUpIcon className="w-5 text-quarterly" />
             </div>
-            <div className="bg-backdrop px-3 rounded">
-              <ChevronDownIcon className="w-5 text-tertiary" />
+            <div className="px-3 rounded">
+              <ChevronDownIcon className="w-5 text-quarterly" />
             </div>
           </div>
         </div>
@@ -35,7 +35,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
             <HeartIcon className="w-3 text-quarterly" />
             <p className="text-sm text-quarterly">{post.user.karma}</p>
           </div>
-          <div className="text-sm font-semibold bg-primary py-2 px-3 rounded-lg text-quarterly">
+          <div className="text-sm font-semibold bg-primary py-2 px-3 rounded-lg text-secondary">
             Comment
           </div>
         </div>

@@ -16,15 +16,11 @@ module.exports = {
       sans: ['Poppins, sans-serif'],
     },
     colors: {
-      primary: '#5745b7', // MAIN COLOR
-      secondary: '#101014', // OFF-BLACK
-      tertiary: '#fefffe', // OFF-WHITE,
+      primary: '#ff8586', // PINK
+      secondary: '#000274', // BLUE
+      tertiary: '#fdfdfd', // WHITE,
       quarterly: '#dcdedc', // OFF-WHITE,
-      black: '#000000',
-      backdrop: '#16151c',
-      gray: {
-        100: '#363540',
-      },
+      backdrop: '#01025c',
     },
 
     extend: {
