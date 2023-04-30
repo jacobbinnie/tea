@@ -19,7 +19,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
         onClick={() => handleSigninWithGoogle()}
         type="submit"
         // eslint-disable-next-line max-len
-        className="text-white font-medium rounded-lg border-gray-100 border-[1px] py-3 px-10"
+        className="text-white font-medium rounded-lg border-quarterly border-[1px] py-3 px-10"
       >
         <svg
           className="w-4 h-4 text-tertiary"
