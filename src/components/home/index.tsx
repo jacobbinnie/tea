@@ -158,6 +158,7 @@ export default function Home() {
         user={appUser}
         setTab={setTab}
         toggleCreatePostWindow={toggleCreatePostWindow}
+        tab={tab}
       />
       <div className={postsClasses}>
         <div className="flex flex-col mt-24 w-full max-w-xl gap-5 pb-24">
