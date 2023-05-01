@@ -17,12 +17,7 @@ export const MyPosts: React.FC<MyPostsProps> = ({
   }
 
   if (myPosts.length > 0) {
-    return (
-      <>
-        <h2 className="text-xl pl-4 font-extrabold text-quarterly">my posts</h2>
-        <PostContainer posts={myPosts} />
-      </>
-    )
+    return <PostContainer posts={myPosts} />
   } else {
     return <div>You have no posts</div>
   }

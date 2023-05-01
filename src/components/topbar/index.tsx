@@ -7,15 +7,18 @@ import {
   PlusCircleIcon,
 } from '@heroicons/react/24/solid'
 import { AppUser } from 'interfaces'
+import clsx from 'clsx'
 
 interface TopbarProps {
   user: AppUser | null
+  tab: 'myPosts' | 'home'
   setTab: Dispatch<SetStateAction<'home' | 'myPosts'>>
   toggleCreatePostWindow: () => void
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
   user,
+  tab,
   setTab,
   toggleCreatePostWindow,
 }) => {
@@ -50,18 +53,32 @@ export const Topbar: React.FC<TopbarProps> = ({
       <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
       {/* top gradient */}
 
-      <div className="flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-8 bg-quarterly left-6 animate-pulse">
-        <MapPinIcon className="text-secondary w-5" />
-        <p className="text-xl font-extrabold text-secondary">tower bridge</p>
+      <div
+        className={clsx(
+          tab === 'home'
+            ? 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-8 bg-quarterly left-6 animate-pulse'
+            : 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-8 bg-quarterly left-6',
+        )}
+      >
+        {tab === 'home' && <MapPinIcon className="text-secondary w-5" />}
+        <p className="text-xl font-extrabold text-secondary">
+          {tab === 'myPosts' ? 'my posts' : 'tower bridge'}
+        </p>
       </div>
 
-      <PlusCircleIcon
-        onClick={() => toggleCreatePostWindow()}
-        className="text-quarterly w-14 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer z-10 focus:outline-none"
-      />
+      {tab === 'home' && (
+        <PlusCircleIcon
+          onClick={() => toggleCreatePostWindow()}
+          className={
+            'text-quarterly w-14 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer z-10 focus:outline-none'
+          }
+        />
+      )}
+
       <div className="w-full h-32 bg-gradient-to-t from-secondary to-transparent fixed bottom-0 transition-all duration-500">
         <div className="w-full h-32 bg-secondary mt-32" />
       </div>
+
       {/* bottom gradient */}
     </div>
   )
