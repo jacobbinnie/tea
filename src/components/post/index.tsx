@@ -27,7 +27,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
 
-        <p className="text-xl text-tertiary font-extrabold break-all">
+        <p className="text-xl text-tertiary font-extrabold break-words">
           {post.body}
         </p>
 
