@@ -25,15 +25,10 @@ export const Topbar: React.FC<TopbarProps> = ({
           tea.wtf
         </h2>
 
-        <PlusCircleIcon
-          onClick={() => toggleCreatePostWindow()}
-          className="text-quarterly w-14 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer z-10"
-        />
-
         <div className="flex gap-5">
           <div
             onClick={() => setTab('myPosts')}
-            className="flex items-center gap-2 cursor-pointer font-semibold text-quarterly text-sm"
+            className="flex items-center gap-2 cursor-pointer font-extrabold text-quarterly text-sm"
           >
             my posts
           </div>
@@ -50,7 +45,14 @@ export const Topbar: React.FC<TopbarProps> = ({
       </div>
       <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
       {/* top gradient */}
-      <div className="w-full h-32 bg-gradient-to-t from-secondary to-transparent fixed bottom-0 transition-all duration-500" />
+
+      <PlusCircleIcon
+        onClick={() => toggleCreatePostWindow()}
+        className="text-quarterly w-14 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer z-10 focus:outline-none"
+      />
+      <div className="w-full h-32 bg-gradient-to-t from-secondary to-transparent fixed bottom-0 transition-all duration-500">
+        <div className="w-full h-32 bg-secondary mt-32" />
+      </div>
       {/* bottom gradient */}
     </div>
   )

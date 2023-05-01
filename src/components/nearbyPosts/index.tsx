@@ -22,7 +22,7 @@ export const NearbyPosts: React.FC<NearbyPostsProps> = ({
       <div className="flex flex-col w-full gap-3">
         <div className="flex gap-1 px-4 animate-pulse">
           <MapPinIcon className="text-quarterly w-5 animate-pulse" />
-          <p className="text-xl font-semibold text-quarterly">tower bridge</p>
+          <p className="text-xl font-extrabold text-quarterly">tower bridge</p>
         </div>
 
         <PostContainer posts={nearbyPosts} />

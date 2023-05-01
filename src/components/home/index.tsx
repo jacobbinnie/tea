@@ -145,7 +145,7 @@ export default function Home() {
 
   if (!location) {
     return (
-      <div className="h-screen w-screen flex justify-center items-center">
+      <div className="h-screen w-screen bg-secondary flex justify-center items-center">
         <Loading loadingMessage="Retrieving Location..." />
       </div>
     )
