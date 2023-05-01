@@ -187,15 +187,18 @@ export function createPost(
   ) => void,
 ) {
   const generatedString = Date.now() + generateString(5)
-  set(ref(db, 'posts/' + generatedString), {
-    body,
-    timestamp,
-    user: uid,
-  })
-    .then(() => {
-      setGeofireKey(generatedString, location, handleAddToNearbyPosts)
+  try {
+    set(ref(db, 'posts/' + generatedString), {
+      body,
+      timestamp,
+      user: uid,
     })
-    .catch(err => alert(err.message))
+    setGeofireKey(generatedString, location, handleAddToNearbyPosts)
+    return true
+  } catch (err) {
+    throw new Error('Something went wrong')
+    return false
+  }
 }
 
 // Gets Logged In User's Posts

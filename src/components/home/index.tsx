@@ -103,13 +103,14 @@ export default function Home() {
 
   const handleCreatePost = () => {
     if (location) {
-      createPost(
+      const res = createPost(
         newBody!,
         location,
         Date.now(),
         user!.uid,
         handleAddToNearbyPosts,
       )
+      return res
     }
   }
 

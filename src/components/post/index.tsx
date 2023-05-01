@@ -27,7 +27,9 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           </div>
         </div>
 
-        <p className="text-xl text-tertiary font-extrabold">{post.body}</p>
+        <p className="text-xl text-tertiary font-extrabold break-all">
+          {post.body}
+        </p>
 
         <div className="flex w-full justify-between items-center">
           <div className="flex gap-2">

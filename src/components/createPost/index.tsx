@@ -7,11 +7,12 @@ import {
   XCircleIcon,
   ClockIcon,
 } from '@heroicons/react/24/solid'
+import { useState } from 'react'
 
 interface CreatePostProps {
   handleUpdateNewBody: (newBody: string) => void
   newBody: string | undefined
-  handleCreatePost: () => void
+  handleCreatePost: () => boolean | undefined
   user: AppUser
   createPostWindow: boolean
   toggleCreatePostWindow: () => void
@@ -21,10 +22,25 @@ export const CreatePost: React.FC<CreatePostProps> = ({
   handleUpdateNewBody,
   newBody,
   handleCreatePost,
-  user,
   createPostWindow,
   toggleCreatePostWindow,
 }) => {
+  const [loading, setLoading] = useState(false)
+
+  const handleCreatePostUx = () => {
+    setLoading(true)
+    const res = handleCreatePost()
+
+    if (res) {
+      toggleCreatePostWindow()
+      setLoading(false)
+      handleUpdateNewBody('')
+    } else {
+      setLoading(false)
+      alert("Something went wrong, we couldn't create your post.")
+    }
+  }
+
   const componentClasses = clsx(
     createPostWindow
       ? 'bg-secondary opacity-80 h-5/6 w-full flex fixed bottom-0 flex-col px-4 py-5 py rounded-t-xl transition-all duration-500 items-center'
@@ -90,15 +106,24 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           <button
             type="submit"
             className="text-secondary bg-primary disabled:opacity-10 disabled:cursor-default font-extrabold text-xl py-2 w-1/2 px-4 rounded-xl cursor-pointer transition-all duration-500"
-            disabled={!newBody ? true : newBody.length < 30 ? true : false}
+            disabled={
+              loading
+                ? true
+                : !newBody
+                ? true
+                : newBody.length < 30
+                ? true
+                : false
+            }
             onClick={e => {
               e.preventDefault()
-              handleCreatePost()
+              handleCreatePostUx()
             }}
           >
-            Post
+            {loading ? 'Posting...' : 'Post'}
           </button>
         </div>
+
         <div className="w-full flex justify-center mt-10">
           <XCircleIcon
             onClick={() => toggleCreatePostWindow()}
