@@ -1,7 +1,11 @@
 import { User } from 'firebase/auth'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction } from 'react'
-import { BookmarkIcon, PlusCircleIcon } from '@heroicons/react/24/solid'
+import {
+  BookmarkIcon,
+  MapPinIcon,
+  PlusCircleIcon,
+} from '@heroicons/react/24/solid'
 import { AppUser } from 'interfaces'
 
 interface TopbarProps {
@@ -45,6 +49,11 @@ export const Topbar: React.FC<TopbarProps> = ({
       </div>
       <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
       {/* top gradient */}
+
+      <div className="flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-8 bg-quarterly left-6 animate-pulse">
+        <MapPinIcon className="text-secondary w-5" />
+        <p className="text-xl font-extrabold text-secondary">tower bridge</p>
+      </div>
 
       <PlusCircleIcon
         onClick={() => toggleCreatePostWindow()}
