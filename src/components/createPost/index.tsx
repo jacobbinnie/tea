@@ -43,8 +43,8 @@ export const CreatePost: React.FC<CreatePostProps> = ({
 
   const componentClasses = clsx(
     createPostWindow
-      ? 'bg-secondary opacity-80 h-5/6 w-full flex fixed bottom-0 flex-col px-4 py-10 border-t-4 border-primary rounded-t-xl transition-all duration-500 items-center'
-      : 'bg-tertiary h-0 w-full opacity-0 flex fixed bottom-0 flex-col transition-all duration-500 items-center',
+      ? 'bg-secondary opacity-80 h-5/6 w-full flex fixed bottom-0 flex-col px-4 py-10 border-t-4 border-primary rounded-t-xl transition-all duration-500 items-center z-20'
+      : 'bg-tertiary h-0 w-full opacity-0 flex fixed bottom-0 flex-col transition-all border-none duration-500 items-center',
   )
 
   const countClasses = clsx(
