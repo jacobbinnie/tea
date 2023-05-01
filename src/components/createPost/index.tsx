@@ -39,13 +39,9 @@ export const CreatePost: React.FC<CreatePostProps> = ({
 
   return (
     <div className={componentClasses}>
-      <div className="flex flex-col gap-5 w-full max-w-xl px-4">
+      <div className="flex flex-col gap-5 w-full max-w-xl px-4 z-10">
         <div className="flex w-full justify-between items-center">
-          <p className="text-xl font-semibold text-tertiary">Create post</p>
-          <XCircleIcon
-            onClick={() => toggleCreatePostWindow()}
-            className="text-quarterly w-10 cursor-pointer"
-          />
+          <p className="text-xl font-extrabold text-tertiary">Create post</p>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -61,7 +57,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             name="paragraph_text"
             cols={50}
             rows={10}
-            className="transition-all bg-secondary font-medium mt-3 text-lg text-quarterly h-28"
+            className="transition-all bg-secondary font-medium mt-3 text-xl text-quarterly h-28"
             onChange={e => handleUpdateNewBody(e.target.value)}
             placeholder={"What's on your mind?"}
             value={newBody}
@@ -93,7 +89,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           </div>
           <button
             type="submit"
-            className="text-quarterly bg-primary disabled:opacity-10 disabled:cursor-default font-semibold text-lg py-2 w-1/2 px-4 rounded-xl cursor-pointer transition-all duration-500"
+            className="text-secondary bg-primary disabled:opacity-10 disabled:cursor-default font-extrabold text-xl py-2 w-1/2 px-4 rounded-xl cursor-pointer transition-all duration-500"
             disabled={!newBody ? true : newBody.length < 30 ? true : false}
             onClick={e => {
               e.preventDefault()
@@ -102,6 +98,12 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           >
             Post
           </button>
+        </div>
+        <div className="w-full flex justify-center mt-10">
+          <XCircleIcon
+            onClick={() => toggleCreatePostWindow()}
+            className="text-quarterly w-14 cursor-pointer focus:outline-none"
+          />
         </div>
       </div>
     </div>

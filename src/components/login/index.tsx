@@ -10,10 +10,15 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
   }
 
   return (
-    <div className="flex flex-col gap-5 justify-center items-center">
-      <h2 className="mt-6 text-center text-3xl font-bold italic tracking-tight text-primary">
-        tea.wtf
-      </h2>
+    <div className="flex flex-col gap-4 justify-center items-center">
+      <div className="flex flex-col items-center gap-1">
+        <p className="text-3xl font-extrabold italic cursor-pointer tracking-tight text-primary">
+          tea.wtf
+        </p>
+        <p className="text-md font-medium italic cursor-pointer tracking-tight text-primary">
+          happening nearby
+        </p>
+      </div>
 
       <button
         onClick={() => handleSigninWithGoogle()}
