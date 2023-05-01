@@ -11,7 +11,7 @@ interface PostProps {
 
 export const Post: React.FC<PostProps> = ({ post }) => {
   return (
-    <div className=" bg-secondary items-start px-4 py-6 min-w-full break-inside-avoid transition-all duration-500">
+    <div className=" bg-secondary items-start px-4 py-6 min-w-full max-w-full break-inside-avoid transition-all duration-500">
       <div className="flex flex-col gap-5">
         <div className="flex w-full justify-between items-center">
           <p className="text-sm font-medium text-quarterly">
