@@ -15,8 +15,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
         <p className="text-3xl font-extrabold italic cursor-pointer tracking-tight text-primary">
           tea.wtf
         </p>
-        <p className="text-md font-medium italic cursor-pointer tracking-tight text-primary">
-          happening nearby
+        <p className="text-md font-medium cursor-pointer tracking-tight text-primary">
+          what's happening nearby
         </p>
       </div>
 
