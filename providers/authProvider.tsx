@@ -99,32 +99,24 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   }
 
   const signInWithGoogle = async () => {
-    setPersistence(auth, browserSessionPersistence)
-      .then(async () => {
-        return signInWithPopup(auth, provider)
-          .then(result => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            if (credential) {
-              const token = credential.accessToken
-              const user = result.user
+    try {
+      await setPersistence(auth, browserSessionPersistence)
+      const res = await signInWithPopup(auth, provider)
+      const credential = GoogleAuthProvider.credentialFromResult(res)
+      if (credential) {
+        const token = credential.accessToken
+        const user = res.user
 
-              if (token && user) {
-                addUserToDatabase(result)
-              }
-            }
-            router.push('./')
-          })
-          .catch(error => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            throw new Error(errorCode, errorMessage)
-          })
-      })
-      .catch(error => {
-        // Handle Errors here.
-        throw new Error(error)
-      })
+        if (token && user) {
+          addUserToDatabase(res)
+        }
+      }
+      router.push('./')
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message)
+      }
+    }
   }
 
   const value = {
