@@ -21,7 +21,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
           type="button"
           className="text-white font-medium rounded-lg border-quarterly border-[1px] py-3 px-5"
         >
-          <p classname="text-quarterly">sign in with Google</p>
+          <p className="text-quarterly">sign in with Google</p>
           {/* <svg
             className="w-4 h-4 text-tertiary"
             aria-hidden="true"
