@@ -5,10 +5,6 @@ interface LoginModalProps {
 }
 
 export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
-  const handleSigninWithGoogle = () => {
-    signInWithGoogle()
-  }
-
   return (
     <div className="flex flex-col gap-4 justify-center items-center">
       <p className="text-md font-extrabold cursor-pointer tracking-tight text-primary">
@@ -21,7 +17,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
         </p>
 
         <button
-          onClick={() => handleSigninWithGoogle()}
+          onClick={() => signInWithGoogle()}
           type="submit"
           className="text-white font-medium rounded-lg border-quarterly border-[1px] py-3 px-5"
         >
