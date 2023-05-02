@@ -61,7 +61,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         )}
       >
         {tab === 'home' && <MapPinIcon className="text-secondary w-5" />}
-        <p className="text-xl font-extrabold text-secondary">
+        <p className="text-sm font-extrabold text-secondary">
           {tab === 'myPosts' ? 'my posts' : 'tower bridge'}
         </p>
       </div>
