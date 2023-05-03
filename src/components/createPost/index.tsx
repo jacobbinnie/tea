@@ -84,7 +84,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           <div className="flex gap-1 items-center">
             <MapPinIcon className="text-quarterly w-3 animate-pulse" />
             <p className="text-sm font-medium text-quarterly">
-              near tower bridge
+              tower bridge
             </p>
           </div>
           <div className="flex gap-1 items-center h-6 text-quarterly">
