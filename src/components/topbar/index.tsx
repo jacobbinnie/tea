@@ -56,8 +56,8 @@ export const Topbar: React.FC<TopbarProps> = ({
       <div
         className={clsx(
           tab === 'home'
-            ? 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-6 animate-pulse'
-            : 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-6',
+            ? 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-5 animate-pulse'
+            : 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-5',
         )}
       >
         {tab === 'home' && <MapPinIcon className="text-secondary w-5" />}

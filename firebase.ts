@@ -14,7 +14,7 @@ import {
   update,
 } from 'firebase/database'
 import { GeoFire, GeoQuery } from 'geofire'
-import { AppUser, UserPost } from './interfaces'
+import { AppUser, UserPost, Vote } from './interfaces'
 import { generateString } from './utils/utils'
 
 const firebaseConfig = {
@@ -57,12 +57,15 @@ const addUserInfo = async (
     postId: string,
     post: UserPost,
     user: AppUser,
+    voteCount: number,
   ) => void,
 ) => {
+  const voteCount = await getPostVotes(postId)
+
   if (post && post.user) {
     const que = query(ref(db, 'users/' + post.user))
     get(que).then(snapshot => {
-      handleAddToNearbyPosts(postId, post, snapshot.val())
+      handleAddToNearbyPosts(postId, post, snapshot.val(), voteCount)
     })
   }
 }
@@ -74,6 +77,7 @@ export const getPublicPost = async (
     postId: string,
     post: UserPost,
     user: AppUser,
+    voteCount: number,
   ) => void,
 ) => {
   const que = query(ref(db, 'posts/' + postId))
@@ -89,6 +93,7 @@ export function getNearbyPostIds(
     postId: string,
     post: UserPost,
     user: AppUser,
+    voteCount: number,
   ) => void,
   handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
@@ -125,6 +130,7 @@ export function setGeofireKey(
     postId: string,
     post: UserPost,
     user: AppUser,
+    voteCount: number,
   ) => void,
 ) {
   geoQuery?.cancel()
@@ -187,6 +193,7 @@ export function createPost(
     postId: string,
     post: UserPost,
     user: AppUser,
+    voteCount: number,
   ) => void,
 ) {
   const generatedString = Date.now() + generateString(5)
@@ -245,7 +252,6 @@ export async function votePost(
       // Only update vote value if it's different from current value
       if (votes[voteId].voteValue !== voteValue) {
         await update(ref(db, `votes/${voteId}`), { voteValue })
-        console.log('Vote updated for user ', userId)
       } else {
         remove(ref(db, `votes/${voteId}`))
       }
@@ -257,9 +263,27 @@ export async function votePost(
         userId: userId,
         voteValue: voteValue,
       })
-      console.log('Vote added for user ', userId)
     }
   } catch (err) {
     console.log('Error while fetching user votes: ', err)
   }
+}
+
+export async function getPostVotes(postId: string) {
+  const voteRef = ref(db, 'votes/')
+  const postVotesQuery = query(voteRef, orderByChild('postId'), equalTo(postId))
+
+  let count = 0
+  try {
+    const snapshot = await get(postVotesQuery)
+    if (snapshot.val()) {
+      Object.values<Vote>(snapshot.val()).map(
+        vote => (count = count + vote.voteValue),
+      )
+    }
+    return count
+  } catch (err) {
+    console.log('Error while fetching post votes: ', err)
+  }
+  return count
 }
