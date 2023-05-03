@@ -10,6 +10,8 @@ import {
   orderByChild,
   equalTo,
   orderByKey,
+  limitToFirst,
+  update,
 } from 'firebase/database'
 import { GeoFire, GeoQuery } from 'geofire'
 import { AppUser, UserPost } from './interfaces'
@@ -220,21 +222,44 @@ export async function votePost(
   postId: string,
   voteValue: 1 | -1,
 ) {
-  const que = query(ref(db, `votes/${userId}/` + postId))
-  try {
-    const res = await get(que)
+  const voteRef = ref(db, 'votes/')
 
-    // Checks if user has already voted on post
-    if (res.val() === null || res.val().vote !== voteValue) {
-      set(ref(db, `votes/${userId}/` + postId), {
-        vote: voteValue,
+  const userVotesQuery = query(voteRef, orderByChild('userId'), equalTo(userId))
+
+  try {
+    const snapshot = await get(userVotesQuery)
+
+    const votes = snapshot.val()
+    let hasVoted = false
+    let voteId = ''
+    if (votes) {
+      Object.keys(votes).forEach(key => {
+        if (votes[key].postId === postId) {
+          hasVoted = true
+          voteId = key
+        }
       })
+    }
+
+    if (hasVoted) {
+      // Only update vote value if it's different from current value
+      if (votes[voteId].voteValue !== voteValue) {
+        await update(ref(db, `votes/${voteId}`), { voteValue })
+        console.log('Vote updated for user ', userId)
+      } else {
+        remove(ref(db, `votes/${voteId}`))
+      }
     } else {
-      remove(ref(db, `votes/${userId}/` + postId))
+      const generatedString = Date.now() + generateString(5)
+      set(ref(db, `votes/${generatedString}`), {
+        id: generatedString,
+        postId: postId,
+        userId: userId,
+        voteValue: voteValue,
+      })
+      console.log('Vote added for user ', userId)
     }
   } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(err.message)
-    }
+    console.log('Error while fetching user votes: ', err)
   }
 }
