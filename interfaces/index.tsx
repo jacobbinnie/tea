@@ -20,8 +20,16 @@ export interface UserPost {
   body: string
   timestamp: number
   user: AppUser
+  voteCount: number
 }
 
 export interface PublicPost extends UserPost {
   image?: string | null | undefined
+}
+
+export interface Vote {
+  id: string
+  postId: string
+  userId: string
+  voteValue: 1 | -1
 }

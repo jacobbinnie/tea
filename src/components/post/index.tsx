@@ -14,9 +14,13 @@ interface PostProps {
 export const Post: React.FC<PostProps> = ({ post }) => {
   const { user } = useAuth()
 
-  const handleVotePost = (voteValue: 1 | -1) => {
+  const [voting, setVoting] = useState(false)
+
+  const handleVotePost = async (voteValue: 1 | -1) => {
     if (user && user?.uid) {
-      votePost(user?.uid, post.postId, voteValue)
+      setVoting(true)
+      await votePost(user?.uid, post.postId, voteValue)
+      setVoting(false)
     }
   }
 
@@ -28,18 +32,25 @@ export const Post: React.FC<PostProps> = ({ post }) => {
             {useSincePosted(post.timestamp)}
           </p>
 
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <div className="px-3 rounded">
               <ChevronUpIcon
                 className="w-5 text-quarterly"
-                onClick={() => handleVotePost(1)}
+                onClick={() => {
+                  !voting && handleVotePost(1)
+                }}
               />
             </div>
             <div className="px-3 rounded">
               <ChevronDownIcon
                 className="w-5 text-quarterly"
-                onClick={() => handleVotePost(-1)}
+                onClick={() => !voting && handleVotePost(-1)}
               />
+            </div>
+            <div className="pl-4 rounded">
+              <p className="text-sm font-medium text-quarterly">
+                {post.voteCount}
+              </p>
             </div>
           </div>
         </div>

@@ -31,6 +31,8 @@ export default function Home() {
 
   const { appUser, user } = useAuth()
 
+  console.log(nearbyPosts)
+
   const handleUpdateNewBody = (newBody: string) => {
     if (newBody.length <= 100) {
       setNewBody(newBody)
@@ -58,12 +60,14 @@ export default function Home() {
     postId: string,
     post: UserPost,
     user: AppUser,
+    voteCount: number,
   ) => {
     const nearbyPost = {
       postId,
       body: post.body,
       timestamp: post.timestamp,
       user: user,
+      voteCount,
     }
 
     setNearbyPosts(prevState => {
