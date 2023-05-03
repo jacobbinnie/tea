@@ -4,12 +4,22 @@ import { PublicPost } from '../../../interfaces'
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import { HeartIcon } from '@heroicons/react/24/solid'
 import { useSincePosted } from 'src/utils'
+import { useAuth } from 'providers/authProvider'
+import { votePost } from '../../../firebase'
 
 interface PostProps {
   post: PublicPost
 }
 
 export const Post: React.FC<PostProps> = ({ post }) => {
+  const { user } = useAuth()
+
+  const handleVotePost = (voteValue: 1 | -1) => {
+    if (user && user?.uid) {
+      votePost(user?.uid, post.postId, voteValue)
+    }
+  }
+
   return (
     <div className=" bg-secondary items-start px-4 py-6 min-w-full max-w-full break-inside-avoid transition-all duration-500">
       <div className="flex flex-col gap-5">
@@ -17,12 +27,19 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           <p className="text-sm font-medium text-quarterly">
             {useSincePosted(post.timestamp)}
           </p>
+
           <div className="flex gap-2">
             <div className="px-3 rounded">
-              <ChevronUpIcon className="w-5 text-quarterly" />
+              <ChevronUpIcon
+                className="w-5 text-quarterly"
+                onClick={() => handleVotePost(1)}
+              />
             </div>
             <div className="px-3 rounded">
-              <ChevronDownIcon className="w-5 text-quarterly" />
+              <ChevronDownIcon
+                className="w-5 text-quarterly"
+                onClick={() => handleVotePost(-1)}
+              />
             </div>
           </div>
         </div>
