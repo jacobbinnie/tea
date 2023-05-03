@@ -88,13 +88,13 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             </p>
           </div>
           <div className="flex gap-1 items-center h-6 text-quarterly">
-            {newBody && newBody.length > 30 && (
+            {newBody && newBody.length > 20 && (
               <>
                 <p className={countClasses}>{100 - newBody.length}</p>
                 <p>•</p>
               </>
             )}
-            <p className="text-sm font-medium text-quarterly">min 30 chars</p>
+            <p className="text-sm font-medium text-quarterly">min 20 chars</p>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                 ? true
                 : !newBody
                 ? true
-                : newBody.length < 30
+                : newBody.length < 20
                 ? true
                 : false
             }
