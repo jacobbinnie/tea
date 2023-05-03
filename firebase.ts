@@ -4,6 +4,7 @@ import {
   getDatabase,
   ref,
   set,
+  remove,
   query,
   get,
   orderByChild,
@@ -211,4 +212,29 @@ export function getUserPosts(
   get(que).then(async snapshot => {
     handleAddToMyPosts(snapshot.val())
   })
+}
+
+// Likes User Post
+export async function votePost(
+  userId: string,
+  postId: string,
+  voteValue: 1 | -1,
+) {
+  const que = query(ref(db, `votes/${userId}/` + postId))
+  try {
+    const res = await get(que)
+
+    // Checks if user has already voted on post
+    if (res.val() === null || res.val().vote !== voteValue) {
+      set(ref(db, `votes/${userId}/` + postId), {
+        vote: voteValue,
+      })
+    } else {
+      remove(ref(db, `votes/${userId}/` + postId))
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message)
+    }
+  }
 }
