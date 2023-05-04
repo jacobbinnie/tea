@@ -6,6 +6,7 @@ import {
   geoFire,
   getNearbyPostIds,
   getUserPosts,
+  getUserVotes,
 } from '../../../firebase'
 import { AppUser, PublicPost, UserPost } from '../../../interfaces'
 import { useAuth } from '../../../providers/authProvider'
@@ -30,8 +31,6 @@ export default function Home() {
   const [createPostWindow, setCreatePostWindow] = useState(false)
 
   const { appUser, user } = useAuth()
-
-  console.log(nearbyPosts)
 
   const handleUpdateNewBody = (newBody: string) => {
     if (newBody.length <= 100) {
@@ -60,14 +59,12 @@ export default function Home() {
     postId: string,
     post: UserPost,
     user: AppUser,
-    voteCount: number,
   ) => {
     const nearbyPost = {
       postId,
       body: post.body,
       timestamp: post.timestamp,
       user: user,
-      voteCount,
     }
 
     setNearbyPosts(prevState => {

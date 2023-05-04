@@ -57,15 +57,12 @@ const addUserInfo = async (
     postId: string,
     post: UserPost,
     user: AppUser,
-    voteCount: number,
   ) => void,
 ) => {
-  const voteCount = await getPostVotes(postId)
-
   if (post && post.user) {
     const que = query(ref(db, 'users/' + post.user))
     get(que).then(snapshot => {
-      handleAddToNearbyPosts(postId, post, snapshot.val(), voteCount)
+      handleAddToNearbyPosts(postId, post, snapshot.val())
     })
   }
 }
@@ -77,7 +74,6 @@ export const getPublicPost = async (
     postId: string,
     post: UserPost,
     user: AppUser,
-    voteCount: number,
   ) => void,
 ) => {
   const que = query(ref(db, 'posts/' + postId))
@@ -93,7 +89,6 @@ export function getNearbyPostIds(
     postId: string,
     post: UserPost,
     user: AppUser,
-    voteCount: number,
   ) => void,
   handleRemoveFromNearbyPosts: (key: string) => void,
 ) {
@@ -130,7 +125,6 @@ export function setGeofireKey(
     postId: string,
     post: UserPost,
     user: AppUser,
-    voteCount: number,
   ) => void,
 ) {
   geoQuery?.cancel()
@@ -193,7 +187,6 @@ export function createPost(
     postId: string,
     post: UserPost,
     user: AppUser,
-    voteCount: number,
   ) => void,
 ) {
   const generatedString = Date.now() + generateString(5)
@@ -223,20 +216,29 @@ export function getUserPosts(
   })
 }
 
+export async function getUserVotes(userId: string) {
+  const voteRef = ref(db, 'votes/')
+  const userVotesQuery = query(voteRef, orderByChild('userId'), equalTo(userId))
+
+  try {
+    const snapshot = await get(userVotesQuery)
+    return snapshot.val()
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message)
+    }
+  }
+}
+
 // Likes User Post
 export async function votePost(
   userId: string,
   postId: string,
   voteValue: 1 | -1,
 ) {
-  const voteRef = ref(db, 'votes/')
-
-  const userVotesQuery = query(voteRef, orderByChild('userId'), equalTo(userId))
-
   try {
-    const snapshot = await get(userVotesQuery)
+    const votes = await getUserVotes(userId)
 
-    const votes = snapshot.val()
     let hasVoted = false
     let voteId = ''
     if (votes) {
