@@ -80,7 +80,6 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   const initializeFirebase = useCallback(() => {
     app
     auth.languageCode = 'it'
-    console.log('Initialized Firebase')
   }, [])
 
   if (getApps().length < 1) {
