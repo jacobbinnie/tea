@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   const signInWithGoogle = async () => {
     if ('ontouchstart' in document.documentElement) {
       // Sign in using a redirect.
-
+      const provider = new GoogleAuthProvider()
       // Start a sign in process for an unauthenticated user.
       provider.addScope('profile')
       provider.addScope('email')
@@ -122,7 +122,6 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
             addUserToDatabase(result)
           }
         }
-        router.push('./')
       }
     } else {
       // DESKTOP LOGIC
