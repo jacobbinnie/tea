@@ -118,7 +118,11 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
         const credential = GoogleAuthProvider.credentialFromResult(result)
         if (credential) {
           const token = credential.accessToken
+          if (token && user) {
+            addUserToDatabase(result)
+          }
         }
+        router.push('./')
       }
     } else {
       // DESKTOP LOGIC
