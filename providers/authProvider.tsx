@@ -8,10 +8,12 @@ import React, {
 import {
   browserSessionPersistence,
   getAuth,
+  getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged,
   setPersistence,
   signInWithPopup,
+  signInWithRedirect,
   User,
   UserCredential,
 } from 'firebase/auth'
@@ -98,23 +100,54 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   }
 
   const signInWithGoogle = async () => {
-    try {
-      await setPersistence(auth, browserSessionPersistence)
-      const res = await signInWithPopup(auth, provider)
-      const credential = GoogleAuthProvider.credentialFromResult(res)
-      if (credential) {
-        const token = credential.accessToken
-        const user = res.user
+    if ('ontouchstart' in document.documentElement) {
+      // Sign in using a redirect.
 
-        if (token && user) {
-          addUserToDatabase(res)
+      // Start a sign in process for an unauthenticated user.
+      provider.addScope('profile')
+      provider.addScope('email')
+      await signInWithRedirect(auth, provider)
+      // This will trigger a full page redirect away from your app
+
+      // After returning from the redirect when your app initializes you can obtain the result
+      const result = await getRedirectResult(auth)
+      if (result) {
+        // This is the signed-in user
+        const user = result.user
+        // This gives you a Google Access Token.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        if (credential) {
+          const token = credential.accessToken
         }
       }
-      router.push('./')
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(error.message)
-      }
+    } else {
+      // DESKTOP LOGIC
+      setPersistence(auth, browserSessionPersistence)
+        .then(async () => {
+          return signInWithPopup(auth, provider)
+            .then(result => {
+              // This gives you a Google Access Token. You can use it to access the Google API.
+              const credential = GoogleAuthProvider.credentialFromResult(result)
+              if (credential) {
+                const token = credential.accessToken
+                const user = result.user
+
+                if (token && user) {
+                  addUserToDatabase(result)
+                }
+              }
+              router.push('./')
+            })
+            .catch(error => {
+              const errorCode = error.code
+              const errorMessage = error.message
+              throw new Error(errorCode, errorMessage)
+            })
+        })
+        .catch(error => {
+          // Handle Errors here.
+          throw new Error(error)
+        })
     }
   }
 
