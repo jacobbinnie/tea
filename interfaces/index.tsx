@@ -20,7 +20,6 @@ export interface UserPost {
   body: string
   timestamp: number
   user: AppUser
-  voteCount: number
 }
 
 export interface PublicPost extends UserPost {
