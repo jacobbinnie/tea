@@ -101,6 +101,29 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
     )
   }
 
+  const checkRedirectResult = async () => {
+    if (!appUser) {
+      const result = await getRedirectResult(auth)
+      if (result) {
+        // This is the signed-in user
+        const user = result.user
+        // This gives you a Google Access Token.
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        if (credential) {
+          const token = credential.accessToken
+          if (token && user) {
+            addUserToDatabase(result)
+          }
+        }
+        router.push('./')
+      }
+    }
+  }
+
+  useEffect(() => {
+    checkRedirectResult()
+  }, [])
+
   const signInWithGoogle = async (
     handleSetSigningIn: (value: boolean) => void,
   ) => {
@@ -113,23 +136,6 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
         provider.addScope('email')
         await signInWithRedirect(auth, provider)
         // This will trigger a full page redirect away from your app
-
-        // After returning from the redirect when your app initializes you can obtain the result
-        const result = await getRedirectResult(auth)
-        if (result) {
-          // This is the signed-in user
-          const user = result.user
-          // This gives you a Google Access Token.
-          const credential = GoogleAuthProvider.credentialFromResult(result)
-          if (credential) {
-            const token = credential.accessToken
-            if (token && user) {
-              addUserToDatabase(result)
-            }
-          }
-          router.push('./')
-          handleSetSigningIn(false)
-        }
       } catch (error) {
         handleSetSigningIn(false)
         console.log(error)
