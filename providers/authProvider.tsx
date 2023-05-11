@@ -127,53 +127,53 @@ export const AuthProvider = ({ children }: AuthProviderOptions) => {
   const signInWithGoogle = async (
     handleSetSigningIn: (value: boolean) => void,
   ) => {
-    if ('ontouchstart' in document.documentElement) {
-      try {
-        handleSetSigningIn(true)
-        await setPersistence(auth, browserSessionPersistence)
-        // Start a sign in process for an unauthenticated user.
-        provider.addScope('profile')
-        provider.addScope('email')
-        await signInWithRedirect(auth, provider)
-        // This will trigger a full page redirect away from your app
-      } catch (error) {
-        handleSetSigningIn(false)
-        console.log(error)
-        throw new Error('Something went wrong')
-      }
-    } else {
-      // DESKTOP LOGIC
-      handleSetSigningIn(true)
-      setPersistence(auth, browserSessionPersistence)
-        .then(async () => {
-          return signInWithPopup(auth, provider)
-            .then(result => {
-              // This gives you a Google Access Token. You can use it to access the Google API.
-              const credential = GoogleAuthProvider.credentialFromResult(result)
-              if (credential) {
-                const token = credential.accessToken
-                const user = result.user
+    // if ('ontouchstart' in document.documentElement) {
+    //   try {
+    //     handleSetSigningIn(true)
+    //     await setPersistence(auth, browserSessionPersistence)
+    //     // Start a sign in process for an unauthenticated user.
+    //     provider.addScope('profile')
+    //     provider.addScope('email')
+    //     await signInWithRedirect(auth, provider)
+    //     // This will trigger a full page redirect away from your app
+    //   } catch (error) {
+    //     handleSetSigningIn(false)
+    //     console.log(error)
+    //     throw new Error('Something went wrong')
+    //   }
+    // } else {
+    // DESKTOP LOGIC
+    handleSetSigningIn(true)
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        return signInWithPopup(auth, provider)
+          .then(result => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result)
+            if (credential) {
+              const token = credential.accessToken
+              const user = result.user
 
-                if (token && user) {
-                  addUserToDatabase(result)
-                }
+              if (token && user) {
+                addUserToDatabase(result)
               }
-              router.push('./')
-              handleSetSigningIn(false)
-            })
-            .catch(error => {
-              handleSetSigningIn(false)
-              const errorCode = error.code
-              const errorMessage = error.message
-              throw new Error(errorCode, errorMessage)
-            })
-        })
-        .catch(error => {
-          handleSetSigningIn(false)
-          // Handle Errors here.
-          throw new Error(error)
-        })
-    }
+            }
+            router.push('./')
+            handleSetSigningIn(false)
+          })
+          .catch(error => {
+            handleSetSigningIn(false)
+            const errorCode = error.code
+            const errorMessage = error.message
+            throw new Error(errorCode, errorMessage)
+          })
+      })
+      .catch(error => {
+        handleSetSigningIn(false)
+        // Handle Errors here.
+        throw new Error(error)
+      })
+    // }
   }
 
   const value = {
