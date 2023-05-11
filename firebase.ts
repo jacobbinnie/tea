@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import {
   getDatabase,
@@ -9,9 +8,8 @@ import {
   get,
   orderByChild,
   equalTo,
-  orderByKey,
-  limitToFirst,
   update,
+  onValue,
 } from 'firebase/database'
 import { GeoFire, GeoQuery } from 'geofire'
 import { AppUser, UserPost, Vote } from './interfaces'
@@ -31,10 +29,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig)
 export const db = getDatabase()
 
-// Create a Firebase reference where GeoFire will store its information
 const firebaseRef = ref(db, 'geofireKeys/')
-
-// Create a GeoFire index
 export const geoFire = new GeoFire(firebaseRef)
 
 let geoQuery: GeoQuery | undefined
@@ -48,38 +43,6 @@ export function removeGeofireKey(key: string) {
       console.log('Error: ' + error)
     },
   )
-}
-
-const addUserInfo = async (
-  postId: string,
-  post: UserPost,
-  handleAddToNearbyPosts: (
-    postId: string,
-    post: UserPost,
-    user: AppUser,
-  ) => void,
-) => {
-  if (post && post.user) {
-    const que = query(ref(db, 'users/' + post.user))
-    get(que).then(snapshot => {
-      handleAddToNearbyPosts(postId, post, snapshot.val())
-    })
-  }
-}
-
-// Gets Single Post
-export const getPublicPost = async (
-  postId: string,
-  handleAddToNearbyPosts: (
-    postId: string,
-    post: UserPost,
-    user: AppUser,
-  ) => void,
-) => {
-  const que = query(ref(db, 'posts/' + postId))
-  get(que).then(snapshot => {
-    addUserInfo(postId, snapshot.val(), handleAddToNearbyPosts)
-  })
 }
 
 export function getNearbyPostIds(
@@ -107,9 +70,20 @@ export function getNearbyPostIds(
     })
   }
 
-  geoQuery.on('key_entered', (key: string) => {
-    if (!processedIds.includes(key)) {
-      getPublicPost(key, handleAddToNearbyPosts)
+  geoQuery.on('key_entered', (postId: string) => {
+    if (!processedIds.includes(postId)) {
+      const que = query(ref(db, 'posts/' + postId))
+
+      get(que).then(snapshot => {
+        const userPost = snapshot.val()
+        if (postId && userPost) {
+          const que = query(ref(db, 'users/' + snapshot.val().user))
+
+          get(que).then(snapshot => {
+            handleAddToNearbyPosts(postId, userPost, snapshot.val())
+          })
+        }
+      })
     }
   })
 
@@ -207,7 +181,6 @@ export function createPost(
 // Gets Logged In User's Posts
 export function getUserPosts(
   uuid: string,
-  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   handleAddToMyPosts: (posts: UserPost[]) => void,
 ) {
   const que = query(ref(db, 'posts/'), orderByChild('user'), equalTo(uuid))
@@ -259,6 +232,7 @@ export async function votePost(
       }
     } else {
       const generatedString = Date.now() + generateString(5)
+
       set(ref(db, `votes/${generatedString}`), {
         id: generatedString,
         postId: postId,
@@ -271,21 +245,33 @@ export async function votePost(
   }
 }
 
-export async function getPostVotes(postId: string) {
+export async function getPostVotes(
+  postId: string,
+  callback: (count: number) => void,
+) {
   const voteRef = ref(db, 'votes/')
   const postVotesQuery = query(voteRef, orderByChild('postId'), equalTo(postId))
 
   let count = 0
-  try {
-    const snapshot = await get(postVotesQuery)
-    if (snapshot.val()) {
-      Object.values<Vote>(snapshot.val()).map(
-        vote => (count = count + vote.voteValue),
-      )
-    }
-    return count
-  } catch (err) {
-    console.log('Error while fetching post votes: ', err)
-  }
+
+  onValue(
+    postVotesQuery,
+    snapshot => {
+      if (snapshot.val()) {
+        const votes = Object.values<Vote>(snapshot.val())
+        const count = votes.reduce((acc, vote) => acc + vote.voteValue, 0)
+
+        callback(count)
+      } else {
+        const count = 0
+
+        callback(count)
+      }
+    },
+    error => {
+      console.log('Error while fetching post votes: ', error)
+    },
+  )
+
   return count
 }

@@ -19,6 +19,10 @@ export const Post: React.FC<PostProps> = ({ post }) => {
   const [totalVotes, setTotalVotes] = useState<number>()
   const [vote, setVote] = useState<'UP' | 'NONE' | 'DOWN'>()
 
+  const handleSetTotalVotes = (votes: number) => {
+    setTotalVotes(votes)
+  }
+
   const handleVotePost = async (voteValue: 1 | -1) => {
     if (
       (voteValue === 1 && vote === 'UP') ||
@@ -50,7 +54,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
 
   const handleGetPostVote = async () => {
     if (user) {
-      const totalVotes = await getPostVotes(post.postId)
+      await getPostVotes(post.postId, handleSetTotalVotes)
       const userVotes = await getUserVotes(user.uid) // TODO: move this up so it's called only once
 
       if (userVotes) {
@@ -61,12 +65,6 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           setVote(voteWithPostId.voteValue === 1 ? 'UP' : 'DOWN')
         } else setVote('NONE')
       } else setVote('NONE')
-
-      if (totalVotes !== undefined) {
-        setTotalVotes(totalVotes)
-      } else {
-        setTotalVotes(0)
-      }
     }
   }
 

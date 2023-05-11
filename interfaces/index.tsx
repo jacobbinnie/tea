@@ -30,5 +30,5 @@ export interface Vote {
   id: string
   postId: string
   userId: string
-  voteValue: 1 | -1
+  voteValue: 1 | -1 | 0
 }
