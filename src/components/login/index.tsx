@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Spinner from '../../../assets/loading.svg'
+import PostContainer from '../postContainer'
 
 interface LoginModalProps {
   signInWithGoogle: (
@@ -15,7 +16,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ signInWithGoogle }) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 justify-center items-center">
+    <div className="flex flex-col gap-4 justify-center items-center w-full">
       <p className="text-lg font-extrabold cursor-pointer tracking-tight text-primary">
         what's happening. nearby.
       </p>

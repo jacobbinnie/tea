@@ -7,17 +7,21 @@ import { useSincePosted } from 'src/utils'
 import { useAuth } from 'providers/authProvider'
 import { getPostVotes, getUserVotes, votePost } from '../../../firebase'
 import clsx from 'clsx'
+import ReplyModal from '../replyModal'
 
 interface PostProps {
   post: PublicPost
 }
 
 export const Post: React.FC<PostProps> = ({ post }) => {
-  const { user } = useAuth()
+  const { user, appUser } = useAuth()
 
   const [voting, setVoting] = useState(false)
   const [totalVotes, setTotalVotes] = useState<number>()
   const [vote, setVote] = useState<'UP' | 'NONE' | 'DOWN'>()
+  const [replyWindow, setReplyWindow] = useState(false)
+
+  const toggleReplyWindow = () => setReplyWindow(prev => !prev)
 
   const handleSetTotalVotes = (votes: number) => {
     setTotalVotes(votes)
@@ -66,6 +70,11 @@ export const Post: React.FC<PostProps> = ({ post }) => {
         } else setVote('NONE')
       } else setVote('NONE')
     }
+  }
+
+  const handleCreateComment = (body: string) => {
+    console.log('Creating comment logic here....', body)
+    return true
   }
 
   useEffect(() => {
@@ -125,11 +134,22 @@ export const Post: React.FC<PostProps> = ({ post }) => {
               {post.user.karma}
             </p>
           </div>
-          <div className="text-sm font-extrabold bg-primary py-2 px-3 rounded-lg text-secondary">
-            Comment
+          <div
+            onClick={() => toggleReplyWindow()}
+            className="cursor-pointer text-sm font-extrabold bg-primary py-2 px-3 rounded-lg text-secondary"
+          >
+            Reply
           </div>
         </div>
       </div>
+
+      <ReplyModal
+        handleCreateComment={handleCreateComment}
+        replyWindow={replyWindow}
+        toggleReplyWindow={toggleReplyWindow}
+        user={{ image: '123', karma: 12, name: 'Jacob' }}
+        post={post}
+      />
     </div>
   )
 }
