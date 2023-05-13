@@ -53,15 +53,11 @@ export const Topbar: React.FC<TopbarProps> = ({
       <div className="bg-gradient-to-b from-secondary to-transparent h-10" />
       {/* top gradient */}
 
-      <div
-        className={clsx(
-          tab === 'home'
-            ? 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-5 animate-pulse'
-            : 'flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-5',
+      <div className="flex gap-1 px-3 py-1 rounded-xl z-10 fixed bottom-9 bg-quarterly left-4">
+        {tab === 'home' && (
+          <MapPinIcon className="text-secondary w-5 animate-pulse ml-[-3px]" />
         )}
-      >
-        {tab === 'home' && <MapPinIcon className="text-secondary w-5" />}
-        <p className="text-sm font-extrabold text-secondary ">
+        <p className="text-sm font-extrabold text-secondary">
           {tab === 'myPosts' ? 'my posts' : 'tower bridge'}
         </p>
       </div>

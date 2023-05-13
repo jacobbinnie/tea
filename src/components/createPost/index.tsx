@@ -47,6 +47,12 @@ export const CreatePost: React.FC<CreatePostProps> = ({
       : 'bg-tertiary h-0 w-full opacity-0 flex fixed bottom-0 flex-col transition-all border-none duration-500 items-center',
   )
 
+  const toggleClasses = clsx(
+    createPostWindow
+      ? 'text-quarterly w-14 cursor-pointer focus:outline-none'
+      : 'text-quarterly w-14 focus:outline-none',
+  )
+
   const countClasses = clsx(
     newBody && newBody.length > 89
       ? 'text-sm font-medium text-[red]'
@@ -83,9 +89,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         <div className="flex gap-1 justify-between">
           <div className="flex gap-1 items-center">
             <MapPinIcon className="text-quarterly w-3 animate-pulse" />
-            <p className="text-sm font-medium text-quarterly">
-              tower bridge
-            </p>
+            <p className="text-sm font-medium text-quarterly">tower bridge</p>
           </div>
           <div className="flex gap-1 items-center h-6 text-quarterly">
             {newBody && newBody.length > 20 && (
@@ -126,8 +130,8 @@ export const CreatePost: React.FC<CreatePostProps> = ({
 
         <div className="flex w-full justify-center fixed bottom-32 left-0">
           <XCircleIcon
-            onClick={() => toggleCreatePostWindow()}
-            className="text-quarterly w-14 cursor-pointer focus:outline-none"
+            onClick={() => createPostWindow && toggleCreatePostWindow()}
+            className={toggleClasses}
           />
         </div>
       </div>

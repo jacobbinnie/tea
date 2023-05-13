@@ -6,6 +6,8 @@ import {
   MapPinIcon,
   XCircleIcon,
   ClockIcon,
+  ArrowLeftIcon,
+  ArrowUturnLeftIcon,
 } from '@heroicons/react/24/solid'
 import { useState } from 'react'
 
@@ -51,8 +53,8 @@ export const ReplyModal: React.FC<ReplyModalProps> = ({
 
   const componentClasses = clsx(
     replyWindow
-      ? 'bg-secondary opacity-100 h-full w-full flex fixed bottom-0 right-0 flex-col px-4 py-10 border-t-4 border-primary transition-all duration-500 items-center z-20'
-      : 'bg-tertiary h-0 w-full opacity-0 flex fixed bottom-0 right-0 flex-col transition-all border-none duration-500 items-center',
+      ? 'bg-secondary opacity-100 h-full w-full flex fixed bottom-0 right-0 flex-col px-4 py-5 border-t-4 border-primary transition-all duration-500 items-center z-20'
+      : 'bg-tertiary h-full w-0 py-5 opacity-0 flex fixed bottom-0 right-0 flex-col transition-all border-t-4 border-primary duration-500 items-center',
   )
 
   const countClasses = clsx(
@@ -63,11 +65,15 @@ export const ReplyModal: React.FC<ReplyModalProps> = ({
 
   return (
     <div className={componentClasses}>
-      <div className="flex w-full justify-center fixed bottom-32 left-0">
-        <XCircleIcon
-          onClick={() => toggleReplyWindow()}
-          className="text-quarterly w-14 cursor-pointer focus:outline-none"
-        />
+      <div className="flex w-full">
+        <button
+          onClick={toggleReplyWindow}
+          disabled={!replyWindow}
+          className="cursor-pointer flex gap-1 px-3 py-1 rounded-xl z-10 bg-quarterly"
+        >
+          <ArrowUturnLeftIcon className="text-secondary w-4 ml-[-3px]" />
+          <p className="text-sm font-extrabold text-secondary">Back</p>
+        </button>
       </div>
     </div>
   )
