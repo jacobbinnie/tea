@@ -66,7 +66,7 @@ export const Topbar: React.FC<TopbarProps> = ({
         <PlusCircleIcon
           onClick={() => toggleCreatePostWindow()}
           className={
-            'text-quarterly w-14 fixed bottom-6 right-6 transition-all shadow-xl cursor-pointer z-10 focus:outline-none'
+            'text-quarterly w-14 fixed bottom-6 right-4 transition-all shadow-xl cursor-pointer z-10 focus:outline-none'
           }
         />
       )}
