@@ -14,13 +14,21 @@ export const useSincePosted = (timestamp: number): string => {
       const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
       if (days > 0) {
-        setSincePosted(`${days} days ago`)
+        if (days === 1) {
+          setSincePosted(`${days} day ago`)
+        } else setSincePosted(`${days} days ago`)
       } else if (hours > 0) {
-        setSincePosted(`${hours} hours ago`)
+        if (hours === 1) {
+          setSincePosted(`${hours} hour ago`)
+        } else setSincePosted(`${hours} hours ago`)
       } else if (minutes > 0) {
-        setSincePosted(`${minutes} minutes ago`)
+        if (minutes === 1) {
+          setSincePosted(`${minutes} minute ago`)
+        } else setSincePosted(`${minutes} minutes ago`)
       } else if (seconds > 0) {
-        setSincePosted(`${seconds} seconds ago`)
+        if (seconds === 1) {
+          setSincePosted(`${seconds} second ago`)
+        } else setSincePosted(`${seconds} seconds ago`)
       } else {
         setSincePosted('Just now')
       }
@@ -34,13 +42,21 @@ export const useSincePosted = (timestamp: number): string => {
     const days = Math.floor(diff / (1000 * 60 * 60 * 24))
 
     if (days > 0) {
-      setSincePosted(`${days} days ago`)
+      if (days === 1) {
+        setSincePosted(`${days} day ago`)
+      } else setSincePosted(`${days} days ago`)
     } else if (hours > 0) {
-      setSincePosted(`${hours} hours ago`)
+      if (hours === 1) {
+        setSincePosted(`${hours} hour ago`)
+      } else setSincePosted(`${hours} hours ago`)
     } else if (minutes > 0) {
-      setSincePosted(`${minutes} minutes ago`)
+      if (minutes === 1) {
+        setSincePosted(`${minutes} minute ago`)
+      } else setSincePosted(`${minutes} minutes ago`)
     } else if (seconds > 0) {
-      setSincePosted(`${seconds} seconds ago`)
+      if (seconds === 1) {
+        setSincePosted(`${seconds} second ago`)
+      } else setSincePosted(`${seconds} seconds ago`)
     } else {
       setSincePosted('Just now')
     }

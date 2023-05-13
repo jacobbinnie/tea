@@ -10,6 +10,7 @@ import {
   ArrowUturnLeftIcon,
 } from '@heroicons/react/24/solid'
 import { useState } from 'react'
+import ReplyContainer from '../replyContainer'
 
 interface ReplyModalProps {
   handleCreateComment: (body: string) => boolean | undefined
@@ -69,12 +70,14 @@ export const ReplyModal: React.FC<ReplyModalProps> = ({
         <button
           onClick={toggleReplyWindow}
           disabled={!replyWindow}
-          className="cursor-pointer flex gap-1 px-3 py-1 rounded-xl z-10 bg-quarterly"
+          className="cursor-pointer flex gap-1 px-3 py-1 rounded-xl z-10 bg-primary"
         >
           <ArrowUturnLeftIcon className="text-secondary w-4 ml-[-3px]" />
           <p className="text-sm font-extrabold text-secondary">Back</p>
         </button>
       </div>
+
+      <ReplyContainer post={post} />
     </div>
   )
 }
