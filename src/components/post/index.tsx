@@ -136,7 +136,7 @@ export const Post: React.FC<PostProps> = ({ post }) => {
           </div>
           <div
             onClick={() => toggleReplyWindow()}
-            className="cursor-pointer text-sm font-extrabold bg-primary py-2 px-3 rounded-lg text-secondary"
+            className="cursor-pointer text-sm font-extrabold bg-primary py-1 px-3 rounded-xl text-secondary"
           >
             Reply
           </div>

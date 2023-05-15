@@ -77,7 +77,9 @@ export const ReplyModal: React.FC<ReplyModalProps> = ({
         </button>
       </div>
 
-      <ReplyContainer post={post} />
+      <div className="w-full max-w-xl">
+        <ReplyContainer post={post} />
+      </div>
     </div>
   )
 }
