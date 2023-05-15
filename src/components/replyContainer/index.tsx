@@ -40,6 +40,7 @@ export const ReplyContainer: React.FC<ReplyContainerProps> = ({ post }) => {
   return (
     <div className="w-full">
       <div className="w-full h-[1px] bg-quarterly my-5 opacity-10" />
+
       <Reply post={post} reply={false} />
       <div className="flex flex-col gap-2">
         <textarea
@@ -54,36 +55,50 @@ export const ReplyContainer: React.FC<ReplyContainerProps> = ({ post }) => {
           name="paragraph_text"
           cols={50}
           rows={10}
-          className="transition-all bg-secondary font-medium mt-3 text-xl text-quarterly h-28"
+          className="transition-all bg-backdrop font-medium mt-3 text-xl text-quarterly h-28"
           onChange={e => handleUpdateNewBody(e.target.value)}
-          placeholder={"What's on your mind?"}
+          placeholder={'Leave a reply...'}
           value={newBody}
         />
       </div>
 
-      <div className="flex gap-1 items-center h-6 text-quarterly">
-        {newBody && newBody.length > 20 && (
-          <>
-            <p className={countClasses}>{100 - newBody.length}</p>
-            <p>•</p>
-          </>
-        )}
-        <p className="text-sm font-medium text-quarterly">min 20 chars</p>
+      <div className="w-full flex justify-between items-center">
+        <div className="flex gap-1 items-center h-6 text-quarterly">
+          {newBody && newBody.length > 20 && (
+            <>
+              <p className={countClasses}>{100 - newBody.length}</p>
+              <p>•</p>
+            </>
+          )}
+          <p className="text-sm font-medium text-quarterly">min 20 chars</p>
+        </div>
+        <button
+          type="submit"
+          className="text-secondary bg-primary disabled:opacity-10 disabled:cursor-default font-extrabold text-sm py-1 px-5 rounded-xl cursor-pointer transition-all duration-500"
+          disabled={
+            loading
+              ? true
+              : !newBody
+              ? true
+              : newBody.length < 20
+              ? true
+              : false
+          }
+          onClick={e => {
+            e.preventDefault()
+            handleCreatePostUx()
+          }}
+        >
+          {loading ? 'Posting...' : 'Post'}
+        </button>
       </div>
-      <button
-        type="submit"
-        className="text-secondary bg-primary disabled:opacity-10 disabled:cursor-default font-extrabold text-xl py-2 w-1/2 px-4 rounded-xl cursor-pointer transition-all duration-500"
-        disabled={
-          loading ? true : !newBody ? true : newBody.length < 20 ? true : false
-        }
-        onClick={e => {
-          e.preventDefault()
-          handleCreatePostUx()
-        }}
-      >
-        {loading ? 'Posting...' : 'Post'}
-      </button>
+
+      <div className="text-sm font-extrabold bg-primary w-min my-5 py-1 px-3 rounded-xl text-secondary">
+        Replies
+      </div>
+
       <div className="w-full h-[1px] bg-quarterly my-5 opacity-10" />
+
       <Reply post={post} reply={true} />
       <Reply post={post} reply={true} />
       <Reply post={post} reply={true} />

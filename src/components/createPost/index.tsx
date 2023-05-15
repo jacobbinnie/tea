@@ -109,7 +109,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
           </div>
           <button
             type="submit"
-            className="text-secondary bg-primary disabled:opacity-10 disabled:cursor-default font-extrabold text-xl py-2 w-1/2 px-4 rounded-xl cursor-pointer transition-all duration-500"
+            className="text-secondary bg-primary disabled:opacity-10 disabled:cursor-default font-extrabold text-sm py-1 px-5 rounded-xl cursor-pointer transition-all duration-500"
             disabled={
               loading
                 ? true

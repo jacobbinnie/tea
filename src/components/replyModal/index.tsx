@@ -54,8 +54,8 @@ export const ReplyModal: React.FC<ReplyModalProps> = ({
 
   const componentClasses = clsx(
     replyWindow
-      ? 'bg-secondary opacity-100 h-full w-full flex fixed bottom-0 right-0 flex-col px-4 py-5 border-t-4 border-primary transition-all duration-500 items-center z-20'
-      : 'bg-tertiary h-full w-0 py-5 opacity-0 flex fixed bottom-0 right-0 flex-col transition-all border-t-4 border-primary duration-500 items-center',
+      ? 'bg-backdrop opacity-100 h-full w-full flex fixed bottom-0 left-0 flex-col px-4 py-5 border-t-4 border-primary transition-all duration-500 items-center z-20'
+      : 'bg-backdrop opacity-0 h-full w-full flex fixed bottom-0 left-full flex-col px-4 py-5 border-t-4 border-primary transition-all duration-500 items-center z-20',
   )
 
   const countClasses = clsx(
