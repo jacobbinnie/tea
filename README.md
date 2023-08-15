@@ -2,7 +2,7 @@
 ![screely-1692091200830](https://github.com/jacobbinnie/tea/assets/83803154/f24db66d-1475-4ff4-be49-c554311f6e44)
 
 
-# Tea - a location based social feed within a 3km radius
+# Tea - a 3km radius location social feed 📍
 
 Create a post based on your current location. Whenever other authenticated users are within a 3km radius of that location, they'll be able to see and interact with your post.
 
