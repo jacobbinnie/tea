@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+https://github.com/jacobbinnie/tea/assets/83803154/f02a87ce-b423-4195-a766-23b7b270335c
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+# Tea - a 3km radius based social feed
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a post based on your current location. Whenever other authenticated users are within a 3km radius of that location, they'll be able to see and interact with your post.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Realtime location based content updates
+- Upvoting / downvoting / commenting
+- Authentication through Google
+- Mobile responsiveness
+- Lightweight
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## How it works
 
-## Deploy on Vercel
+Core stack: Typescript + Next.js + Firebase + Geofire
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+--
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+When an authenticated user creates a post, the current latitude and longitude of the user's position are indexer through Geofire against a realtime Firebase backend. This allows for indexing thousands if not millions of records (in theory) based on a 3km circular radius - rather than mapping through endless posts in order to retrieve data.
+
+Once a user's current location is observed, a geofire query is fired to retrieve Firebase database posts associated within the current radius. Pretty neat, right.
+
+What's even cooler is it returns data within milliseconds.
+
+Voting & commenting is handled through standard Firebase apis.
+
+UI is designed using Tailwind. 100% custom components and design.
+
+The entire application is typesafe and super clean as eslint / prettier have been active contributors from first init.
+
+--
+
+I had a great time piecing this build together including some time spent abroad in Europe. PS. Bullet trains through the French countryside are an amazing place to get in the zone for a crystal clear code session.
