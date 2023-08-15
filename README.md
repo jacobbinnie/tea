@@ -8,7 +8,7 @@ Create a post based on your current location. Whenever other authenticated users
 
 ## Features
 
-- Realtime location based content updates
+- Realtime location based content retrieval
 - Upvoting / downvoting / commenting
 - Authentication through Google
 - Mobile responsiveness
