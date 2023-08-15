@@ -1,19 +1,10 @@
 
+![screely-1692091200830](https://github.com/jacobbinnie/tea/assets/83803154/f24db66d-1475-4ff4-be49-c554311f6e44)
 
 
-https://github.com/jacobbinnie/tea/assets/83803154/4e711947-a1e9-439e-8628-d131fe262ad4
-
-
-
-
-# Tea - a 3km radius based social feed
+# Tea - a location based social feed within a 3km radius
 
 Create a post based on your current location. Whenever other authenticated users are within a 3km radius of that location, they'll be able to see and interact with your post.
-
-
-
-
-
 
 ## Features
 
@@ -44,3 +35,8 @@ The entire application is typesafe and super clean as eslint / prettier have bee
 --
 
 I had a great time piecing this build together including some time spent abroad in Europe. PS. Bullet trains through the French countryside are an amazing place to get in the zone for a crystal clear code session.
+## Walkthrough
+
+
+Video:
+https://github.com/jacobbinnie/tea/assets/83803154/4e711947-a1e9-439e-8628-d131fe262ad4
